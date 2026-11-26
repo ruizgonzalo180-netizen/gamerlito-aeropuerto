@@ -206,7 +206,7 @@
 #airport-cancel {
   position: absolute; top: max(12px,env(safe-area-inset-top)); right: max(14px,env(safe-area-inset-right));
   color: white; background: #22242aee; font: 600 15px/1.25 LxBuilder,Arial,sans-serif; min-height: 42px;
-  padding: 6px 17px; border: 1px solid #ffffff65; border-radius: 8px; opacity: 0;
+  padding: 6px 17px; border: 1px solid #ffffff65; border-radius: 8px; opacity: 0; pointer-events: none;
 }
 #airport-cancel:focus-visible, #airport-join.airport-controls-visible #airport-cancel { pointer-events: auto; opacity: 1; }
 #launcher .airport-event { display: block; padding: 0; width: 100%; margin-top: 16px; overflow: hidden; border-radius: 10px; }

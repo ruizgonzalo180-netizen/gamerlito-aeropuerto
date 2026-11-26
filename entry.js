@@ -102,6 +102,13 @@
     }
     tick();
   }
+  function primeJoin(event) {
+    if (!event.target.closest?.('[data-lx="quick-play"], [data-lx="play"]') || !joinScreen.hidden) return;
+    // The quick-play path briefly shows the experience page before the recorded join begins.
+    // Authorize this same video element during the actual tap for iPad playback policies.
+    joinMovie.play().then(() => { if (joinScreen.hidden) reset(joinMovie); }).catch(() => {});
+  }
+  document.addEventListener('click', primeJoin, true);
   function join() {
     if (stage === 'joining' || stage === 'game') return;
     stage = 'joining';
@@ -111,6 +118,7 @@
     transition = setTimeout(() => {
       if (generation !== token) return;
       window.AirportLobby?.hide();
+      if (joinMovie.currentTime > 0) reset(joinMovie);
       joinScreen.hidden = false;
       joinScreen.focus({preventScroll:true});
       setRecordedStatus(0);
@@ -140,7 +148,11 @@
     if (!event.target.closest('button')) joinScreen.classList.toggle('airport-controls-visible');
   });
   document.addEventListener('keydown', event => {
-    if (stage === 'joining' && event.key === 'Escape') { event.preventDefault(); cancelJoin(); }
+    if (stage === 'joining' && event.key === 'Escape') {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      cancelJoin();
+    }
   }, true);
   desktop.hidden = tablet;
   launcher.hidden = !tablet;
