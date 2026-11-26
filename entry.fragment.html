@@ -1,4 +1,4 @@
-<section id="airport-desktop" aria-label="Desktop"><div class="airport-desktop-stage"><img src="entry/desktop.webp" alt="Desktop with Roblox Player"><button id="airport-launch" type="button" aria-label="Open Roblox Player" title="Open Roblox Player"></button><video id="airport-opening" muted playsinline preload="none" hidden></video></div></section>
+<section id="airport-desktop" aria-label="Desktop"><div class="airport-desktop-stage"><img src="entry/desktop-recording.webp" alt="Desktop with Roblox Player"><button id="airport-launch" type="button" aria-label="Open Roblox Player" title="Open Roblox Player"></button><video id="airport-opening" muted playsinline webkit-playsinline disablepictureinpicture preload="metadata" src="entry/client-start.mp4" hidden></video></div></section>
 <main id="launcher" aria-label="Roblox experience launcher">
   <aside class="lx-rail" aria-label="Navigation">
     <button type="button" data-lx="home" data-nav="home"><i data-ico="home"></i><span>Home</span></button>
@@ -22,4 +22,10 @@
   </dialog>
   <div class="lx-toast" id="lx-toast" role="status" aria-live="polite"></div>
 </main>
-<section id="airport-join" hidden aria-live="polite" aria-label="Joining experience"><div class="airport-join-card"><img src="launcher/992d18231337c844.webp" alt="Game icon"><p class="airport-masked" aria-hidden="true">Grand Theft Auto VI</p><p id="airport-status">Joining server</p><button id="airport-cancel" type="button">Cancel</button></div></section>
+<section id="airport-join" tabindex="-1" hidden aria-label="Joining experience">
+  <video id="airport-join-movie" src="entry/joining-recording.mp4" poster="entry/joining-first.webp" muted playsinline webkit-playsinline disablepictureinpicture preload="auto" aria-hidden="true"></video>
+  <img id="airport-join-still" src="entry/joining-first.webp" hidden alt="">
+  <p id="airport-status" class="airport-sr-only" aria-live="polite">Joining server</p>
+  <button id="airport-white-close" type="button" aria-label="Cancel joining"></button>
+  <button id="airport-cancel" type="button" aria-label="Cancel joining">Cancel</button>
+</section>

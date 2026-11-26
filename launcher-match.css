@@ -1,0 +1,101 @@
+#launcher .lx-header-tools .lx-utility-button { display: none; }
+#launcher .lx-reference-profile img { border-radius: 50%; }
+#launcher .lx-friends [data-lx="connections"] { position: relative; }
+#launcher .lx-friends [data-lx="connections"]::after {
+  content: ""; position: absolute; right: -8%; top: 0; width: 39%; aspect-ratio: 25/15;
+  background: url('launcher/friend-count.webp') center / contain no-repeat;
+}
+#launcher .lx-friends .lx-portrait { border-radius: 0; background: transparent; }
+#launcher .lx-friends [data-person="11"] .lx-portrait { object-fit: contain; object-position: left center; }
+#launcher .lx-platform-menu { margin-top: auto; }
+#launcher .lx-reference-menu img, #launcher .lx-platform-menu img { border-radius: 0; }
+#launcher .lx-reference-skeleton { display: none; }
+#launcher .lx-recorded-detail.lx-hero-pending .lx-reference-error { visibility: hidden; }
+#launcher .lx-recorded-detail.lx-hero-pending .lx-reference-skeleton {
+  display: grid; gap: 12px; position: absolute; inset: auto 0; margin-top: 16px;
+}
+#launcher .lx-reference-skeleton div { background: #e3e5e8; border-radius: 7px; }
+#launcher .lx-reference-skeleton div:first-child { width: 65%; height: 16px; }
+#launcher .lx-reference-skeleton div:last-child { width: 100%; aspect-ratio: 1.8; }
+#launcher .lx-reference-error { display: grid; justify-items: center; text-align: center; color: #4b4e55; }
+#launcher .lx-reference-retry { background: #e4e6e9; border-radius: 6px; font-weight: 600; }
+#launcher .lx-quick-tile { min-width: 0; }
+#launcher .lx-quick-tile .lx-card { width: 100%; }
+#launcher .lx-quick-play { display: grid; place-items: center; width: 100%; padding: 0; background: #3956f6; color: white; border-radius: 5px; }
+#launcher .lx-quick-play i { width: 50%; height: 76%; }
+#launcher .lx-quick-play:hover, #launcher .lx-reference-retry:hover { filter: brightness(.93); }
+#launcher .lx-reference-digest { margin-top: 14px; }
+#launcher .lx-recorded-detail { position: relative; }
+@media (hover: hover) and (pointer: fine) {
+  #launcher .lx-quick-play { opacity: 0; }
+  #launcher .lx-quick-tile:hover .lx-quick-play, #launcher .lx-quick-tile:focus-within .lx-quick-play { opacity: 1; }
+}
+@media (min-width: 731px) {
+  #launcher { --u: clamp(.7px, .094697vw, 1.9px); --rail: calc(44 * var(--u)); --gutter: calc(44 * var(--u)); color: #202123; }
+  #launcher .lx-home .lx-main, #launcher .lx-main { max-width: none; margin: 0; padding-left: var(--gutter); padding-right: var(--gutter); }
+  #launcher .lx-rail { padding: calc(3 * var(--u)) 0 calc(4 * var(--u)); gap: 0; }
+  #launcher .lx-rail button { height: calc(43 * var(--u)); border-radius: 0; gap: calc(3 * var(--u)); font-size: calc(8.5 * var(--u)); font-weight: 400; color: #212225; }
+  #launcher .lx-rail [aria-current=page] { font-weight: 500; }
+  #launcher .lx-rail button img { width: calc(19 * var(--u)); height: calc(19 * var(--u)); object-fit: contain; border-radius: 0; }
+  #launcher .lx-rail .lx-reference-menu { height: calc(39 * var(--u)); }
+  #launcher .lx-rail .lx-platform-menu { height: calc(34 * var(--u)); }
+  #launcher .lx-header, #launcher .lx-home .lx-header {
+    height: calc(38 * var(--u)); min-height: calc(38 * var(--u)); padding: 0 var(--gutter);
+    grid-template-columns: 1fr calc(275 * var(--u)) 1fr; gap: 0;
+  }
+  #launcher .lx-brand { width: calc(72 * var(--u)); }
+  #launcher .lx-search { height: calc(25 * var(--u)); border-radius: calc(4.5 * var(--u)); padding: 0 calc(7 * var(--u)); gap: calc(6 * var(--u)); }
+  #launcher .lx-search i { width: calc(16 * var(--u)); height: calc(16 * var(--u)); }
+  #launcher .lx-search input { font-size: calc(11 * var(--u)); }
+  #launcher .lx-header-tools { align-items: center; gap: calc(7 * var(--u)); }
+  #launcher .lx-header-tools button { width: calc(23 * var(--u)); height: calc(30 * var(--u)); padding: calc(2 * var(--u)); }
+  #launcher .lx-header-tools img { width: calc(20 * var(--u)); height: calc(20 * var(--u)); object-fit: contain; }
+  #launcher .lx-header-tools .lx-reference-profile { width: auto; display: flex; align-items: center; gap: calc(5 * var(--u)); font-size: calc(11.5 * var(--u)); font-weight: 700; }
+  #launcher .lx-header-tools .lx-reference-profile img { width: calc(24 * var(--u)); height: calc(24 * var(--u)); }
+  #launcher .lx-home .lx-tabs, #launcher .lx-tabs { min-height: calc(34 * var(--u)); margin: 0 0 calc(14 * var(--u)); align-items: stretch; gap: 0; }
+  #launcher .lx-tabs button { padding: 0 calc(8 * var(--u)); font-size: calc(10.5 * var(--u)); border-bottom-width: 1px; }
+  #launcher .lx-tabs button[aria-selected=true] { font-weight: 400; }
+  #launcher .lx-home .lx-friends { gap: calc(12.4 * var(--u)); padding: 0 0 calc(1 * var(--u)); margin-right: calc(0px - var(--gutter)); }
+  #launcher .lx-home:not(.lx-compact) .lx-friends button { width: calc(65 * var(--u)); gap: calc(5 * var(--u)); }
+  #launcher .lx-home .lx-friends span:last-child { width: 100%; text-align: center; font-size: calc(8.4 * var(--u)); }
+  #launcher .lx-friend-activity { font-weight: 400; }
+  #launcher .airport-event { margin-top: calc(27 * var(--u)); border-radius: calc(5 * var(--u)); }
+  #launcher .lx-section { margin-top: calc(24 * var(--u)); }
+  #launcher .lx-section>h2, #launcher .lx-page-title { font-size: calc(14.5 * var(--u)); margin-bottom: calc(10 * var(--u)); }
+  #launcher .lx-cards:not(.lx-squares) { gap: calc(13 * var(--u)); }
+  #launcher .lx-card, #launcher .lx-home .lx-squares .lx-card { padding: 0; gap: calc(2 * var(--u)); border-radius: calc(5 * var(--u)); }
+  #launcher .lx-card img, #launcher .lx-home .lx-cards .lx-card img { border-radius: calc(5 * var(--u)); margin-bottom: calc(5 * var(--u)); }
+  #launcher .lx-card .lx-card-title { font-size: calc(10.2 * var(--u)); }
+  #launcher .lx-meta { font-size: calc(10 * var(--u)); gap: calc(3 * var(--u)); }
+  #launcher .lx-reference-digest { margin-top: calc(9 * var(--u)); }
+  #launcher .lx-reference-digest .lx-cards { grid-template-columns: repeat(5,minmax(0,1fr)); }
+  #launcher .lx-recent .lx-cards.lx-squares { display: grid; grid-template-columns: repeat(6,calc(81 * var(--u))); gap: calc(13 * var(--u)); }
+  #launcher .lx-recent .lx-card-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; min-height: 2.3em; }
+  #launcher .lx-quick-play { height: calc(23 * var(--u)); margin-top: calc(4 * var(--u)); }
+  #launcher .lx-recent .lx-quick-tile:hover { background: #f3f4f6; outline: calc(5 * var(--u)) solid #f3f4f6; border-radius: 4px; }
+  #launcher .lx-detail .lx-scroll { background: linear-gradient(#f8f8f9 0, #fff calc(173 * var(--u))); }
+  #launcher .lx-detail-nav { height: calc(54.5 * var(--u)); display: flex; align-items: flex-start; }
+  #launcher .lx-detail-nav .lx-back { width: calc(36 * var(--u)); height: calc(36 * var(--u)); margin: calc(9 * var(--u)) calc(12 * var(--u)); border-radius: 0; background: transparent; }
+  #launcher .lx-detail-nav .lx-back i { width: calc(18 * var(--u)); height: calc(18 * var(--u)); }
+  #launcher .lx-recorded-detail { width: calc(583 * var(--u)); margin: 0 auto; }
+  #launcher .lx-recorded-detail .lx-detail-head { align-items: flex-end; gap: calc(14 * var(--u)); }
+  #launcher .lx-recorded-detail .lx-detail-tile { width: calc(138 * var(--u)); border-radius: calc(5 * var(--u)); }
+  #launcher .lx-recorded-detail h1 { font-size: calc(19.5 * var(--u)); margin: 0 0 calc(4 * var(--u)); line-height: 1.1; }
+  #launcher .lx-recorded-detail .lx-play-row { margin-top: 0; }
+  #launcher .lx-recorded-detail .lx-play { width: calc(162 * var(--u)); min-width: 0; height: calc(33 * var(--u)); min-height: 0; border-radius: calc(5 * var(--u)); padding: calc(5 * var(--u)); }
+  #launcher .lx-recorded-detail .lx-play i { width: calc(21 * var(--u)); height: calc(21 * var(--u)); }
+  #launcher .lx-reference-error { margin-top: calc(38 * var(--u)); }
+  #launcher .lx-reference-error svg { width: calc(62 * var(--u)); height: calc(55 * var(--u)); }
+  #launcher .lx-reference-error p { margin: calc(8 * var(--u)) 0; font-size: calc(11.5 * var(--u)); }
+  #launcher .lx-reference-retry { padding: calc(7 * var(--u)) calc(9 * var(--u)); font-size: calc(10 * var(--u)); }
+}
+@media (max-width: 730px) {
+  #launcher .lx-header-tools .lx-reference-profile { display: none; }
+  #launcher .lx-header-tools img { width: 20px; height: 20px; }
+  #launcher .lx-recent .lx-cards.lx-squares { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  #launcher .lx-quick-play { height: 34px; margin-top: 4px; }
+  #launcher .lx-reference-error { margin: 28px auto; }
+  #launcher .lx-reference-error svg { width: 56px; height: 50px; }
+  #launcher .lx-reference-error p { font-size: 13px; margin: 10px 0; }
+  #launcher .lx-reference-retry { padding: 7px 14px; font-size: 14px; }
+}

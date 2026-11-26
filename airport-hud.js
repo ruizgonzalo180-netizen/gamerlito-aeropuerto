@@ -7,6 +7,7 @@
   const byAction = (a) => $('[data-gh="' + a + '"]');
   const shade = $(".gh-shade"), menu = $(".gh-menu"), content = $(".gh-content");
   const quick = $(".gh-quick"), chat = $(".gh-chatbox"), chatInput = $(".gh-chat-form input");
+  const command = $(".gh-command"), commandInput = $("#gh-command-input");
   const stick = $(".gh-stick"), knob = $(".gh-stick span");
   const sprintButton = byAction("sprint"), sceneAction = byAction("act");
   const prefsKey = "gamerlito.airport.hud.v1", reportsKey = "gamerlito.airport.notes.v1";
@@ -101,7 +102,34 @@
   function canAct() {
     return active && stage === "playing" && shade.hidden && chat.hidden && quick.hidden;
   }
-  function hideQuick() { quick.hidden=true; byAction("tools").setAttribute("aria-expanded","false"); }
+  function hideQuick() {
+    quick.hidden=true;
+    for (const action of ["tools","console"]) byAction(action).setAttribute("aria-expanded","false");
+  }
+  function toggleQuick(action) {
+    const opened = byAction(action).getAttribute("aria-expanded")==="true";
+    if(!shade.hidden) closeMenu(false);
+    closeChat(); hideQuick(); stopMovement();
+    if(opened) { root.focus({preventScroll:true}); return; }
+    const commands=action==="console";
+    $(".gh-quick-tools").hidden=commands;
+    command.hidden=!commands; quick.hidden=false;
+    byAction(action).setAttribute("aria-expanded","true");
+    if(commands) commandInput.focus({preventScroll:true});
+  }
+  function runCommand(raw) {
+    const value=raw.trim().toLowerCase();
+    if(!value) return;
+    const output=command.querySelector("output");
+    commandInput.value="";
+    if(value==="settings") { showMenu("settings"); return; }
+    if(value==="restart" && stage==="playing") { hideQuick(); player("restart"); return; }
+    if(value==="stats") {
+      updateStats(); output.textContent=stats.textContent; return;
+    }
+    output.textContent=value==="help" ? "help · stats · settings · restart" :
+      value==="restart" ? "Join the game to restart the trip." : "Unknown command. Type help.";
+  }
   function setChatTab(next) {
     chatTab=next;
     $(".gh-messages").hidden=next!=="here"; $(".gh-phrases").hidden=next==="here";
@@ -136,6 +164,7 @@
   function closeMenu(focus=true) {
     if (shade.hidden) return;
     shade.hidden=true; dialog=""; root.classList.remove("gh-modal-open"); byAction("menu").setAttribute("aria-expanded","false");
+    byAction("avatar").setAttribute("aria-expanded","false");
     player("resume");
     if(focus) root.focus({preventScroll:true});
   }
@@ -148,7 +177,7 @@
     menu.focus({preventScroll:true});
   }
   function confirm(action) {
-    dialog=action; renderMenu(); $('[data-gh="cancel"]').focus({preventScroll:true});
+    dialog=action; renderMenu(); $('[data-gh="confirm"]').focus({preventScroll:true});
   }
   const actionButton=(action,label,primary=false)=>'<button type="button" class="gh-action'+(primary?' gh-primary':'')+'" data-gh="'+action+'">'+label+'</button>';
   function picker(key, label, options) {
@@ -159,6 +188,26 @@
       '<button type="button" class="gh-player '+(view==="list"?'gh-player-list':'')+'" data-gh="profile"><img src="launcher/ee506ee9693c698a.webp" alt=""><strong>You</strong></button>';
   }
   const footage=document.getElementById("game-footage"),stats=$('#airport-stats');
+  const consoleButton=byAction("console");
+  let consoleRemaining=4000, consoleStarted=null, consoleTimer;
+  function suspendConsoleReveal() {
+    clearTimeout(consoleTimer);
+    if(consoleStarted===null) return;
+    consoleRemaining=Math.max(0,consoleRemaining-(performance.now()-consoleStarted));
+    consoleStarted=null;
+  }
+  function resumeConsoleReveal() {
+    if(!active || stage!=="playing" || !consoleButton.hidden || consoleStarted!==null ||
+      document.hidden || footage.paused || footage.ended || footage.seeking || footage.readyState<3) return;
+    consoleStarted=performance.now();
+    consoleTimer=setTimeout(()=>{
+      suspendConsoleReveal();
+      if(active && !footage.paused && !footage.seeking && !document.hidden) consoleButton.hidden=false;
+    },consoleRemaining);
+  }
+  for(const event of ["waiting","pause","ended","seeking","emptied"]) footage.addEventListener(event,suspendConsoleReveal);
+  for(const event of ["playing","timeupdate"]) footage.addEventListener(event,resumeConsoleReveal);
+  document.addEventListener("visibilitychange",()=>document.hidden?suspendConsoleReveal():resumeConsoleReveal());
   let statsTimer;
   function updateStats(){
     const quality=footage.getVideoPlaybackQuality?.();
@@ -222,6 +271,7 @@
     return '<h2>Controls</h2>'+rows.map(([name,key])=>'<div class="gh-row"><span>'+name+'</span><span class="gh-key">'+key+'</span></div>').join("");
   }
   function renderMenu() {
+    byAction("avatar").setAttribute("aria-expanded",String(dialog==="profile"));
     const modal=dialog==="respawn"||dialog==="leave";
     $(".gh-tabs").hidden=modal; $(".gh-footer").hidden=modal;
     $$(".gh-tabs [data-tab]").forEach(b=>b.setAttribute("aria-current",b.dataset.tab===tab?"page":"false"));
@@ -236,24 +286,28 @@
       content.innerHTML=({people:person,settings:settingsBody,gallery,report,help}[tab]||person)();
       if (tab==="settings") updateQualityStatus();
     }
+    window.RecordedMenu?.enhance(content);
     content.scrollTop=0;
   }
   function reset() {
     stopMovement(); hideQuick(); closeChat(); shade.hidden=true; dialog=""; tab="people"; view="grid"; selectedShot=null;
     root.classList.remove("gh-modal-open"); byAction("menu").setAttribute("aria-expanded","false");
-    chatInput.value=""; clearTimeout(toastTimer); $(".gh-toast").hidden=true;
+    chatInput.value=""; commandInput.value=""; command.querySelector("output").textContent="help · stats · settings · restart";
+    byAction("avatar").setAttribute("aria-expanded","false"); clearTimeout(toastTimer); $(".gh-toast").hidden=true;
     messages=[]; renderMessages(); setChatTab("here");
   }
   function mount() {
+    suspendConsoleReveal(); consoleRemaining=4000; consoleButton.hidden=true;
     active=true; root.hidden=false; reset(); setStage("launch"); applySettings();
   }
   function setStage(value) {
     stage=value==="playing"?"playing":"launch"; root.dataset.stage=stage;
     if (stage!=="playing") { stopMovement(); setAction(null); }
+    else resumeConsoleReveal();
   }
   function unmount() {
     if(root.contains(document.activeElement)) document.activeElement.blur();
-    active=false; clearInterval(statsTimer); root.hidden=true; reset();
+    active=false; suspendConsoleReveal(); clearInterval(statsTimer); root.hidden=true; reset();
   }
   function persistPref(input) {
     const key=input.dataset.pref;
@@ -285,14 +339,20 @@
       return;
     }
     if (action==="menu") { if(shade.hidden) showMenu(); else closeMenu(); }
-    else if (action==="tools") { if(!shade.hidden) closeMenu(false); closeChat(); stopMovement(); quick.hidden=!quick.hidden; byAction("tools").setAttribute("aria-expanded",String(!quick.hidden)); }
+    else if (action==="tools" || action==="console") toggleQuick(action);
+    else if (action==="avatar") {
+      if(!shade.hidden && dialog==="profile") closeMenu();
+      else { showMenu("people"); dialog="profile"; renderMenu(); }
+    }
     else if (action==="chat") { if(chat.hidden) showChat(false); else closeChat(); }
     else if (action==="close-chat") closeChat();
     else if (action==="audio"||action==="settings") showMenu("settings");
     else if (action==="gallery"||action==="help") showMenu(action);
     else if (action==="here"||action==="phrases") setChatTab(action);
-    else if (action==="playback" && canAct()) player("togglePlayback");
-    else if (action==="replay" && canAct()) player("restart");
+    else if (action==="playback" || action==="replay") {
+      if(!quick.hidden) hideQuick();
+      if(canAct()) { root.focus({preventScroll:true}); player(action==="playback"?"togglePlayback":"restart"); }
+    }
     else if (action==="jump" && canAct()) player("jump");
     else if (action==="act" && canAct() && !sceneAction.hidden) player("performAction");
     else if (action==="resume") closeMenu();
@@ -327,6 +387,7 @@
   root.addEventListener("submit",e=>{
     if(!active) return;
     if(e.target.matches(".gh-chat-form")) { e.preventDefault(); sendMessage(chatInput.value); chatInput.focus(); }
+    if(e.target===command) { e.preventDefault(); runCommand(commandInput.value); }
     if(e.target.matches(".gh-report")) {
       e.preventDefault(); const f=e.target, note=f.elements.note.value.trim(); if(!note) { f.elements.note.focus(); return; }
       reports.unshift({kind:f.elements.kind.value,note:note.slice(0,300)}); reports=reports.slice(0,10);
@@ -375,7 +436,7 @@
       e.preventDefault(); e.stopPropagation();
       if(e.repeat) return;
       if(!shade.hidden) { if(dialog) { dialog=""; renderMenu(); } else closeMenu(); }
-      else if(!chat.hidden) closeChat(); else if(!quick.hidden) hideQuick(); else showMenu();
+      else if(!chat.hidden) closeChat(); else if(!quick.hidden) { hideQuick(); root.focus({preventScroll:true}); } else showMenu();
       return;
     }
     if(!shade.hidden) {

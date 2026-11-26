@@ -7,11 +7,11 @@
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="airport.webmanifest"><link rel="apple-touch-icon" href="gamerlito-192.png">
-<link rel="stylesheet" href="airport.css"><link rel="stylesheet" href="entry.css"><link rel="stylesheet" href="airport-player.css"><link rel="stylesheet" href="airport-hud.css">
+<link rel="stylesheet" href="airport.css?v=d559ebe714"><link rel="stylesheet" href="entry.css?v=d7ef955df9"><link rel="stylesheet" href="launcher-match.css?v=610ead34ea"><link rel="stylesheet" href="airport-player.css?v=1c35637b7d"><link rel="stylesheet" href="airport-hud.css?v=fa27e07eca"><link rel="stylesheet" href="recorded-menu.css?v=0ff1a9b8d1">
 <title>Gamerlito · Airport</title>
 </head>
 <body data-duo-mode="airport">
-<section id="airport-desktop" aria-label="Desktop"><div class="airport-desktop-stage"><img src="entry/desktop.webp" alt="Desktop with Roblox Player"><button id="airport-launch" type="button" aria-label="Open Roblox Player" title="Open Roblox Player"></button><video id="airport-opening" muted playsinline preload="none" hidden></video></div></section>
+<section id="airport-desktop" aria-label="Desktop"><div class="airport-desktop-stage"><img src="entry/desktop-recording.webp" alt="Desktop with Roblox Player"><button id="airport-launch" type="button" aria-label="Open Roblox Player" title="Open Roblox Player"></button><video id="airport-opening" muted playsinline webkit-playsinline disablepictureinpicture preload="metadata" src="entry/client-start.mp4" hidden></video></div></section>
 <main id="launcher" aria-label="Roblox experience launcher">
   <aside class="lx-rail" aria-label="Navigation">
     <button type="button" data-lx="home" data-nav="home"><i data-ico="home"></i><span>Home</span></button>
@@ -35,30 +35,42 @@
   </dialog>
   <div class="lx-toast" id="lx-toast" role="status" aria-live="polite"></div>
 </main>
-<section id="airport-join" hidden aria-live="polite" aria-label="Joining experience"><div class="airport-join-card"><img src="launcher/992d18231337c844.webp" alt="Game icon"><p class="airport-masked" aria-hidden="true">Grand Theft Auto VI</p><p id="airport-status">Joining server</p><button id="airport-cancel" type="button">Cancel</button></div></section>
+<section id="airport-join" tabindex="-1" hidden aria-label="Joining experience">
+  <video id="airport-join-movie" src="entry/joining-recording.mp4" poster="entry/joining-first.webp" muted playsinline webkit-playsinline disablepictureinpicture preload="auto" aria-hidden="true"></video>
+  <img id="airport-join-still" src="entry/joining-first.webp" hidden alt="">
+  <p id="airport-status" class="airport-sr-only" aria-live="polite">Joining server</p>
+  <button id="airport-white-close" type="button" aria-label="Cancel joining"></button>
+  <button id="airport-cancel" type="button" aria-label="Cancel joining">Cancel</button>
+</section>
 
 <main id="game-view" hidden tabindex="-1" aria-label="Airport experience">
  <div id="game-surface">
- <video id="game-footage" playsinline webkit-playsinline disablepictureinpicture preload="metadata" src="media/airport.mp4" data-original="media/airport.mp4" data-mobile="media/airport-720.mp4" data-compact="media/airport-720.mp4" poster="media/airport.jpg" aria-label="Airport gameplay"></video>
+ <video id="game-footage" playsinline webkit-playsinline disablepictureinpicture preload="metadata" src="media/airport.mp4" data-original="media/airport.mp4" data-mobile="media/airport-720.mp4" data-compact="media/airport-720.mp4" poster="media/airport-first-frame.jpg" aria-label="Airport gameplay"></video>
  </div>
- <section id="airport-intro" hidden aria-label="Game opening"><video id="opening-video" muted playsinline webkit-playsinline preload="none" poster="gamerlito-512.png"></video><button id="skip-opening" type="button">Skip intro</button></section>
  <section id="game-hud" aria-label="Roblox controls" data-stage="launch" tabindex="-1" hidden>
-  <div class="gh-toolbar">
+  <div class="gh-toolbar" role="group" aria-label="Roblox top bar">
     <button type="button" class="gh-logo gh-tool" data-gh="menu" title="Roblox menu (Esc)" aria-label="Roblox menu" aria-expanded="false"><i class="gh-glyph gh-logo-glyph"></i></button>
     <div class="gh-tools">
       <button type="button" class="gh-tool" data-gh="tools" title="Experience controls" aria-label="Experience controls" aria-expanded="false"><i class="gh-glyph gh-list-glyph"></i></button>
       <button type="button" class="gh-tool" data-gh="chat" title="Chat (/)" aria-label="Chat" aria-expanded="false"><i class="gh-glyph gh-chat-glyph"></i></button>
-      <button type="button" class="gh-tool" data-gh="audio" title="Audio settings" aria-label="Audio settings"><i class="gh-glyph gh-audio-glyph"></i></button>
     </div>
+    <button type="button" class="gh-tool gh-round" data-gh="console" aria-expanded="false" aria-controls="gh-controls-panel" title="Command bar" aria-label="Command bar" hidden><i class="gh-glyph gh-console-glyph"></i></button>
+    <button type="button" class="gh-tool gh-round" data-gh="avatar" aria-expanded="false" title="Player profile" aria-label="Player profile"><i class="gh-glyph gh-profile-glyph"></i></button>
   </div>
-  <div class="duo-transport" role="group" aria-label="Playback controls">
-    <button type="button" data-gh="playback" aria-label="Pause playback" title="Pause (P)" aria-keyshortcuts="P" class="gh-tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="duo-pause" d="M7 4h3v16H7zm7 0h3v16h-3z"/><path class="duo-play" d="M6 3.5 20 12 6 20.5z"/></svg></button>
-    <button type="button" data-gh="replay" aria-label="Restart the clip" title="Restart from the beginning (R)" aria-keyshortcuts="R" class="gh-tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 5v5h5M4.3 10a8 8 0 1 1 .8 6"/></svg></button>
-  </div>
-  <div class="gh-quick" hidden aria-label="Experience controls">
-    <button type="button" data-gh="settings">Settings</button>
-    <button type="button" data-gh="gallery">Gallery</button>
-    <button type="button" data-gh="help">Help</button>
+  <div id="gh-controls-panel" class="gh-quick" hidden>
+    <div class="gh-quick-tools" aria-label="Experience controls">
+      <button type="button" data-gh="playback" aria-label="Pause playback" aria-keyshortcuts="P"></button>
+      <button type="button" data-gh="replay" aria-keyshortcuts="R">Restart trip</button>
+      <button type="button" data-gh="settings">Settings</button>
+      <button type="button" data-gh="gallery">Gallery</button>
+      <button type="button" data-gh="help">Help</button>
+    </div>
+    <form class="gh-command" hidden aria-label="Command bar">
+      <label for="gh-command-input">Command bar</label>
+      <input id="gh-command-input" type="text" placeholder="help" maxlength="64" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <button type="submit">Run</button>
+      <output aria-live="polite">help · stats · settings · restart</output>
+    </form>
   </div>
   <section class="gh-chatbox" hidden aria-label="Experience chat">
     <div class="gh-chat-tabs"><button type="button" data-gh="here">Here</button><button type="button" data-gh="phrases">Quick chat</button><button type="button" class="gh-chat-x" data-gh="close-chat" aria-label="Close chat">×</button></div>
@@ -94,6 +106,6 @@
 </section>
 
 </main>
-<script defer src="entry.js"></script>
-<script defer src="airport-hud.js"></script><script defer src="airport-player.js"></script><script defer src="airport.js"></script>
+<script defer src="entry.js?v=461c1b1f48"></script>
+<script defer src="airport-hud.js?v=eb501fddfd"></script><script defer src="recorded-menu.js?v=55598674b9"></script><script defer src="airport-player.js?v=fd5e5e3b3f"></script><script defer src="airport.js?v=4c798b1c75"></script>
 </body></html>

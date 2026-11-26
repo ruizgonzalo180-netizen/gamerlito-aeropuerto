@@ -51,6 +51,7 @@
   const hiddenCreator='<span class="lx-hidden-name" aria-hidden="true">Game creator</span>';
   const games = [
     {id:'gta',name:'Grand Theft Auto VI',aliases:['gta','gta6','gta 6','gta vi','gtavi','grand theft auto 6'],img:'launcher/992d18231337c844.webp',hero:'entry/airport.jpg',rating:100},
+    {id:'feral',name:'FERAL 🐺 Animal Survival',img:'launcher/continue-1.webp',rating:82},
     {id:'egg',name:'Steal An Egg',img:'launcher/c0b1b2b1c83dbb5e.webp',rating:91},
     {id:'mm2',name:'Murder Mystery 2',img:'launcher/12b244e5d98bbd3f.webp',rating:90},
     {id:'hospital',name:'Animal Hospital (Anomaly)',img:'launcher/58b29309838ee324.webp',hero:'launcher/42a7400b6c02f3dc.webp',rating:92},
@@ -63,12 +64,13 @@
   ];
   ['+1 Assassin Leveling','Throw Food For Animals','[THANKSGIVING] Hypershot','Furry Avatar Creator [SHARKS!]','Animal Hospital (Anomaly)','Sell a Million Sushi','Voxel Wars','RoWorld [World PvP]','Steal a Dragon Egg'].forEach((name,i)=>games.push({id:'ref'+i,name,img:'entry/recommend-'+i+'.webp',rating:[95,94,94,92,92,98,80,82,100][i]}));
   const getGame = id => games.find(g=>g.id===id) || games[0];
-  const people = [
-    {name:'Rafa',img:'launcher/930d1dc3d96dd3b2.webp'},{name:'Max',img:'launcher/9b65cde048bbad91.webp'},
-    {name:'Player',img:'launcher/e7dbdb877544afa0.webp'},{name:'Mercury',img:'launcher/dae645cff8bc2859.webp'},
-    {name:'Luz',img:'launcher/32eb9bc847452929.webp'},{name:'Alba',img:'launcher/4c05f79037cd64b4.webp'},
-    {name:'Mari',img:'launcher/095a57cf70c1cc27.webp'}
-  ];
+  const recentGames = ['gta','feral','hospital','hunt','egg','mm2'].map((id,index) => {
+    const game=getGame(id);
+    return index?{...game,img:'launcher/continue-'+index+'.webp'}:game;
+  });
+  const recommended = games.filter(game => game.id.startsWith('ref'));
+  const people = ['asep','rafa2026brlox','Allbaconaren…','luiza_star96','Rzrobiz','Marii','Skz_TH2ofc','rip_mercury','Carlos','MoxZ','LucasTYTY6','Papipig']
+    .map((name,index)=>({name,img:'launcher/home-avatar-'+(index+1)+'.webp'}));
   const defaults = {favorites:[],likes:[],alerts:[],friends:[],messages:[],name:'Player',compact:false};
   let saved;
   try { saved=JSON.parse(localStorage.getItem(`gamerlito-airport-launcher-v1`)||'{}')||{}; }
@@ -88,9 +90,11 @@
     persist();return index<0;
   }
   const button=(id,label,icon,css='lx-secondary',extra='')=>'<button type="button" class="'+css+'" data-lx="'+id+'" '+extra+'>'+(icon?ico(icon):'')+label+'</button>';
-  function card(g, wide=false){
+  function card(g, wide=false, recent=false){
     const src=(wide?g.hero:null)||g.img;
-    return '<button type="button" class="lx-card" data-lx="details" data-id="'+g.id+'" aria-label="'+esc(g.name)+'"><img alt="" decoding="async" data-lx-src="'+src+'"><span class="lx-card-title">'+visibleText(g.name)+'</span><span class="lx-meta">'+ico('like')+g.rating+'%</span></button>';
+    const tile='<button type="button" class="lx-card" data-lx="details" data-id="'+g.id+'" aria-label="'+esc(g.name)+'"><img alt="" decoding="async" data-lx-src="'+src+'"><span class="lx-card-title">'+visibleText(g.name)+'</span><span class="lx-meta">'+ico('like')+g.rating+'%'+(recent?'':' Rating')+'</span></button>';
+    if(!recent||g.id!=='gta')return tile;
+    return '<div class="lx-quick-tile">'+tile+button('quick-play','', 'play','lx-quick-play','aria-label="Play from Continue"')+'</div>';
   }
   function grid(list,square=true){
     return '<div class="lx-cards'+(square?' lx-squares':'')+'">'+list.map(g=>card(g,!square)).join('')+'</div>';
@@ -105,19 +109,30 @@
       button('charts','Charts',null,'','role="tab" aria-selected="'+(page==='charts')+'"')+'</nav>';
   }
   function portraits(){
-    return '<div class="lx-friends">'+button('connections','<span class="lx-portrait lx-add">'+ico('plus')+'</span><span>Add Friends</span>',null,'')+
-      people.map((p,i)=>'<button type="button" data-lx="person" data-person="'+i+'"><img class="lx-portrait" decoding="async" data-lx-src="'+p.img+'" alt=""><span>'+p.name+(i===0?'<small class="lx-friend-activity">RIVALS</small>':'')+'</span></button>').join('')+'</div>';
+    return '<div class="lx-friends">'+button('connections','<img src="launcher/home-avatar-0.webp" class="lx-portrait" alt=""><span>Add Friends</span>',null,'')+
+      people.map((p,i)=>'<button type="button" data-lx="person" data-person="'+i+'"><img class="lx-portrait" decoding="async" data-lx-src="'+p.img+'" alt=""><span>'+p.name+(i===0?'<small class="lx-friend-activity">Hyper Realistic…</small>':'')+'</span></button>').join('')+'</div>';
   }
   function discoverAvatars(){
     const cards=people.slice(0,6).map((p,i)=>'<button type="button" class="lx-card" data-lx="person" data-person="'+i+'" aria-label="View '+p.name+' profile"><img decoding="async" data-lx-src="'+p.img+'" alt=""><span class="lx-card-title">'+p.name+'</span></button>');
     return '<section class="lx-section lx-discover"><h2>Discover Avatars</h2><div class="lx-cards lx-squares">'+cards.join('')+'</div></section>';
   }
   function home(){
-    return tabs()+portraits()+'<button type="button" data-lx="event" class="airport-event" aria-label="View Send Gratitude Sky-High"><img src="entry/event.webp" alt="Send Gratitude Sky-High"></button>'+section('Recommended For You',games.slice(10,14),false)+
-      section('Continue',games.slice(0,5),true,'continue')+discoverAvatars();
+    return tabs()+portraits()+'<button type="button" data-lx="event" class="airport-event" aria-label="View Send Gratitude Sky-High"><img src="entry/event.webp" alt="Send Gratitude Sky-High"></button>'+
+      section('Recommended For You',recommended.slice(0,4),false)+
+      '<div class="lx-reference-digest">'+grid(recommended.slice(4),false)+'</div>'+
+      '<section class="lx-section lx-recent"><h2>'+button('continue','Continue'+ico('next'),null,'')+'</h2><div class="lx-cards lx-squares">'+recentGames.map(g=>card(g,false,true)).join('')+'</div></section>'+discoverAvatars();
+  }
+  let detailRecovered=false, quickJoinTimer=0;
+  function recordedDetail(g){
+    return '<div class="lx-detail-nav">'+button('back','', 'close','lx-back','aria-label="Back to library"')+button('navigation','','menu','lx-nav-toggle','aria-label="Navigation menu"')+'</div>'+
+      '<article class="lx-detail-inner lx-recorded-detail"><div class="lx-detail-head"><img class="lx-detail-tile" src="'+g.img+'" alt=""><div class="lx-detail-meta"><h1>'+visibleText(g.name)+'</h1>'+
+      '<div class="lx-play-row">'+button('play','', 'play','lx-play','aria-label="Play Grand Theft Auto VI" title="Play"')+'</div></div></div>'+
+      '<div class="lx-reference-skeleton" aria-hidden="true"><div></div><div></div></div>'+
+      '<div class="lx-reference-error"><svg aria-hidden="true" viewBox="0 0 64 56" fill="none" stroke="currentColor" stroke-width="4.7" stroke-linecap="round" stroke-linejoin="round"><path d="M30 4.5a2.2 2.2 0 014 0l27 46a2 2 0 01-1.7 3H4.7a2 2 0 01-1.7-3z"/><path d="M32 21v12"/><circle cx="32" cy="43" r="2.8" fill="currentColor" stroke="none"/></svg><p>Something went wrong. Please try again.</p>'+button('retry-details','Retry',null,'lx-reference-retry')+'</div></article>';
   }
   function detail(){
     const g=localGame(),play=g.id==='gta',favorite=data.favorites.includes(g.id),like=data.likes.includes(g.id),alert=data.alerts.includes(g.id);
+    if(play&&!detailRecovered)return recordedDetail(g);
     const ctl=(id,label,icon,on)=>button(id,label,icon,'','aria-pressed="'+on+'"');
     return '<div class="lx-detail-nav">'+button('back','', 'close','lx-back','aria-label="Back to library"')+button('navigation','','menu','lx-nav-toggle','aria-label="Navigation menu" aria-haspopup="dialog" aria-controls="lx-dialog"')+'</div><article class="lx-detail-inner"><div class="lx-detail-head"><img class="lx-detail-tile" src="'+g.img+'" alt=""><div class="lx-detail-meta"><h1>'+visibleText(g.name)+'</h1>'+
       '<div class="lx-age">'+(play?'Maturity: Content May Vary · Ages 16+':'Experience preview')+'</div>'+
@@ -151,7 +166,7 @@
       case 'details': view=detail();break;
       case 'home':view=home();break;
       case 'charts':view=tabs()+section('Top rated',[...games].sort((a,b)=>b.rating-a.rating),true);break;
-      case 'continue':view=simple('Continue',grid(games.slice(0,5)));break;
+      case 'continue':view=simple('Continue',grid(recentGames));break;
       case 'moments':view=simple('Moments','<button type="button" data-lx="moment-art" class="lx-hero"><img src="'+games[0].hero+'" alt="Grand Theft Auto VI artwork">'+ico('expand')+'</button>');break;
       case 'favorites':{const list=games.filter(x=>data.favorites.includes(x.id));view=simple('Favorites',list.length?grid(list):'<p class="lx-empty">Tap the star on an experience to save it here.</p>');break;}
       case 'me':view=simple('Me','<img class="airport-avatar-preview" src="entry/avatar.webp" alt="Avatar preview"><div class="lx-profile"><img src="launcher/e7dbdb877544afa0.webp" alt=""><div><h2>'+visibleText(data.name)+'</h2>'+button('edit-profile','Edit name','edit','lx-secondary')+'</div></div>'+section('Favorites',games.filter(x=>data.favorites.includes(x.id)),true,'favorites'));break;
@@ -168,16 +183,17 @@
   }
   function close(){if(dialog.open)dialog.close();modal='';}
   function setPage(name){
+    clearTimeout(quickJoinTimer);
     if(page==='home')homeScroll=content.scrollTop;
     if(name!=='search'){query.value='';maskInput(query);}
     close();page=name;render();
   }
   function details(id){
-    detailOrigin=page;selection=id;setPage('details');
+    detailOrigin=page;selection=id;detailRecovered=false;setPage('details');
     if(id!=='gta')return;
     
     const article=content.querySelector('.lx-detail-inner');
-    for(const [state,frames] of [['cover',13],['meta',19],['hero',35]]){
+    for(const [state,frames] of [['cover',11],['meta',13],['hero',13]]){
       const phase='lx-'+state+'-pending';
       article.classList.add(phase);
       setTimeout(()=>article.classList.remove(phase),frames*1000/60);
@@ -206,6 +222,24 @@
   }
   const fullDisplay=window.matchMedia('(display-mode: fullscreen)');
   const fullButton=root.querySelector('.lx-header-tools [data-lx="fullscreen"]');
+  const rail=root.querySelector('.lx-rail');
+  const navMore=rail.querySelector('[data-lx="more"]');
+  rail.prepend(navMore);
+  navMore.classList.add('lx-reference-menu');
+  navMore.setAttribute('aria-label','Open navigation');
+  navMore.innerHTML='<img src="launcher/nav-menu.webp" alt="">';
+  const navIcons={home:'home',moments:'moments',chat:'chat',me:'me'};
+  for(const [action,asset] of Object.entries(navIcons)){
+    const item=rail.querySelector('[data-lx="'+action+'"]');
+    item.firstElementChild.outerHTML='<img src="launcher/nav-'+asset+'.webp" alt="">';
+  }
+  rail.insertAdjacentHTML('beforeend','<button type="button" data-lx="navigation" class="lx-platform-menu" aria-label="Roblox menu"><img src="launcher/nav-logo.webp" alt=""></button>');
+  const headerTools=root.querySelector('.lx-header-tools');
+  fullButton.classList.add('lx-utility-button');
+  headerTools.querySelector('[data-lx="favorites"]').classList.add('lx-utility-button');
+  headerTools.insertAdjacentHTML('afterbegin',button('me','<img src="launcher/nav-me.webp" alt=""><span>'+visibleText(data.name)+'</span>',null,'lx-reference-profile','aria-label="Open profile"')+
+    button('robux','<img src="launcher/nav-robux.webp" alt="">',null,'lx-balance','aria-label="Robux"'));
+  headerTools.querySelector('[data-lx="notices"]').innerHTML='<img src="launcher/nav-notifications.webp" alt="">';
   function hasFullscreenElement(){return Boolean(document.fullscreenElement||document.webkitFullscreenElement);}
   function updateFullButton(){
     const active=hasFullscreenElement();
@@ -266,8 +300,13 @@
     switch(act){
       case 'home':case 'charts':case 'me':case 'moments':case 'favorites':case 'continue':setPage(act);break;
       case 'details':details(b.dataset.id);break;
+      case 'quick-play':
+        details('gta');enterFullscreen(false);
+        quickJoinTimer=setTimeout(()=>{if(page==='details'&&!root.hidden&&!dialog.open)window.AirportEntry.join();},1200);
+        break;
+      case 'retry-details':clearTimeout(quickJoinTimer);detailRecovered=true;render();break;
       case 'back':setPage(detailOrigin==='details'?'home':detailOrigin);if(page==='home')content.scrollTop=homeScroll;break;
-      case 'play':{close();enterFullscreen(false);window.AirportEntry.join();}break;
+      case 'play':{clearTimeout(quickJoinTimer);close();enterFullscreen(false);window.AirportEntry.join();}break;
       case 'event':openModal('event','Send Gratitude Sky-High','<img class="lx-gallery-image" src="entry/event.webp" alt="The Great Build">',true);break;
       case 'art':artwork(g);break;
       case 'moment-art':artwork(games[0]);break;
@@ -281,16 +320,18 @@
       case 'share':shareGame();break;
       case 'more':more();break;
       case 'navigation':{
-        const links=Array.from(root.querySelectorAll('.lx-rail button'),item=>{
+        const links=Array.from(root.querySelectorAll('.lx-rail button:not([data-lx="navigation"])'),item=>{
           const row=item.cloneNode(true);
           row.className='lx-menu-row';
           row.removeAttribute('data-nav');
+          if(!row.textContent.trim())row.append(document.createTextNode('More'));
           return row.outerHTML;
         });
         openModal('navigation','Menu',links.join(''));break;
       }
       case 'chat':chat();break;
       case 'connections':connections();break;
+      case 'robux':openModal('robux','Robux','<p>Your balance in this simulation is 0 Robux.</p>');break;
       case 'person':profile(Number(b.dataset.person));break;
       case 'friend-toggle':toggle('friends',people[selectedPerson].name);profile(selectedPerson);break;
       case 'notices':{const list=games.filter(x=>data.alerts.includes(x.id));openModal('notices','Notifications',list.length?list.map(x=>button('details',visibleText(x.name),'bell','lx-menu-row','data-id="'+x.id+'"')).join(''):'<p>No notifications. Tap Notify on an experience to keep it here.</p>');break;}
@@ -305,7 +346,7 @@
     if(form.id==='lx-search-form'){if(value){setPage('search');input.blur();}return;}
     if(!value) return;
     if(form.id==='lx-chat-form'){data.messages.push(value);data.messages=data.messages.slice(-100);persist();chat();dialogBody.querySelector('input').focus();}
-    if(form.id==='lx-profile-form'){data.name=value;persist();close();render(true);}
+    if(form.id==='lx-profile-form'){data.name=value;persist();headerTools.querySelector('.lx-reference-profile span').innerHTML=visibleText(value);close();render(true);}
     if(form.id==='lx-copy-form'){try{await navigator.clipboard.writeText(value);close();notify('Copied');}catch{input.select();try{if(document.execCommand('copy')){close();notify('Copied');}}catch{}}}
   });
   root.addEventListener('input',e=>{if(e.target instanceof HTMLInputElement)maskInput(e.target);});

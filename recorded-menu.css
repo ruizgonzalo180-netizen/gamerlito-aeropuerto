@@ -1,0 +1,160 @@
+/* The desktop capture places the native menu a little below the screen centre. */
+#game-hud .gh-shade {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(2.5dvh, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(10px, env(safe-area-inset-left));
+  background: rgb(0 0 0 / .47);
+}
+#game-hud .gh-menu {
+  width: min(1052px, 55vw);
+  min-width: min(530px, 100%);
+  max-width: 100%;
+  height: min(920px, 85.2dvh);
+  max-height: 100%;
+  margin: 0;
+  padding: 0 1.18em 1.12em;
+  background: rgb(4 5 7 / var(--hud-menu-alpha,.86));
+  color: #f0f0f1;
+  font-size: calc(clamp(13px,.955vw,18px) * var(--hud-menu-text,1));
+  border-radius: .52em;
+  box-shadow: none;
+}
+#game-hud .gh-tabs { flex: 0 0 8.6%; }
+#game-hud .gh-tabs button {
+  font-size: 1em;
+  font-weight: 500;
+  padding: 0 .15em;
+  color: rgb(255 255 255 / .47);
+  border-bottom-width: .16em;
+}
+#game-hud .gh-tabs i, #game-hud .gh-recorded-invite i, #game-hud .gh-row-switch button::before {
+  display: inline-block;
+  width: 1.64em;
+  height: 1.64em;
+  flex: none;
+  font-size: inherit;
+  color: inherit;
+  background: currentColor;
+  -webkit-mask: var(--icon) center/contain no-repeat;
+  mask: var(--icon) center/contain no-repeat;
+}
+#game-hud .gh-tabs i { overflow: hidden; text-indent: -5000px; }
+#game-hud [data-tab=people] i { --icon: url("recorded-menu/people.png"); }
+#game-hud [data-tab=settings] i { --icon: url("recorded-menu/settings.png"); }
+#game-hud [data-tab=gallery] i { --icon: url("recorded-menu/gallery.png"); }
+#game-hud [data-tab=report] i { --icon: url("recorded-menu/report.png"); }
+#game-hud [data-tab=help] i { --icon: url("recorded-menu/help.png"); }
+#game-hud .gh-content { padding: .55em .75em; scrollbar-width: thin; scrollbar-color: #7778 transparent; }
+#game-hud .gh-content h2 { font-size: 1.34em; margin: .35em 0; }
+#game-hud .gh-heading { margin: 1.12em 0; min-height: 3em; }
+#game-hud .gh-heading h2 { margin: 0; }
+#game-hud .gh-recorded-invite {
+  display: flex;
+  width: 100%;
+  min-height: 3.25em;
+  align-items: center;
+  gap: .7em;
+  padding: .3em 1.35em;
+  margin-top: .35em;
+  border-radius: .48em;
+  background: #202226;
+  text-align: left;
+}
+#game-hud .gh-recorded-invite i { --icon: url("recorded-menu/invite.png"); }
+#game-hud .gh-recorded-share { display: flex; flex-wrap: wrap; align-items: center; gap: .45em; margin: .55em 0 0; }
+#game-hud .gh-recorded-share input {
+  min-width: 10em;
+  flex: 1;
+  background: #17191c;
+  border: 1px solid #58595c;
+  border-radius: .4em;
+  color: inherit;
+  padding: .6em;
+  user-select: all;
+}
+#game-hud .gh-row-switch { padding: .25em; background: #17181a; border-radius: .5em; }
+#game-hud .gh-row-switch button { width: 2em; height: 2em; border-radius: .3em; color: transparent; position: relative; }
+#game-hud .gh-row-switch button::before { content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 1.2em; height: 1.2em; color: #d7d8da; }
+#game-hud .gh-row-switch [data-gh=grid]::before { --icon: url("recorded-menu/grid.png"); }
+#game-hud .gh-row-switch [data-gh=list]::before { --icon: url("recorded-menu/list.png"); }
+#game-hud .gh-row-switch button[aria-pressed=true] { background: #38393f; }
+#game-hud .gh-player { background: #191a1e; border-radius: .45em; padding: .45em; width: 9.75em; align-items: stretch; }
+#game-hud .gh-player img { width: 100%; height: auto; aspect-ratio: 1; border-radius: .25em; object-fit: cover; }
+#game-hud .gh-player.gh-player-list { width: 100%; align-items: center; }
+#game-hud .gh-player strong { padding: .2em .1em .45em; }
+#game-hud .gh-footer { gap: .5em; flex: 0 0 7%; min-height: 36px; margin-top: .5em; }
+#game-hud .gh-footer button, #game-hud .gh-confirm-actions button {
+  padding: .3em .5em;
+  font-weight: 600;
+  border-radius: .45em;
+  background: #20242a;
+}
+#game-hud .gh-footer .gh-primary, #game-hud .gh-confirm-actions .gh-primary { background: #192959; }
+#game-hud .gh-footer button:hover, #game-hud .gh-confirm-actions button:hover { background: #373b44; }
+#game-hud .gh-footer .gh-primary:hover, #game-hud .gh-confirm-actions .gh-primary:hover { background: #263b79; }
+#game-hud .gh-footer button::before { font-size: .9em; min-width: 1.6em; line-height: 1.5; }
+#game-hud .gh-row {
+  min-height: 3.35em;
+  padding: .32em .72em;
+  gap: .4em;
+  border: 0;
+  border-radius: .45em;
+}
+#game-hud .gh-row:is(:hover,:focus-within) { background: rgb(48 50 51 / .58); }
+#game-hud .gh-level-control { width: 62%; }
+#game-hud .gh-level-control button { width: 1.9em; font-size: 1em; }
+#game-hud .gh-level-control input { height: 1.6em; }
+#game-hud .gh-setting-options { width: 62%; display: flex; justify-content: space-between; align-items: center; gap: .2em; }
+#game-hud .gh-setting-options button {
+  width: 2.35em;
+  height: 2.5em;
+  display: grid;
+  place-items: center;
+  border-radius: .3em;
+}
+#game-hud .gh-setting-options button::before {
+  content: "";
+  width: .88em;
+  height: .88em;
+  border: solid currentColor;
+  border-width: .17em .17em 0 0;
+  transform: rotate(45deg);
+}
+#game-hud .gh-setting-options [data-menu-step="-1"]::before { transform: rotate(-135deg); }
+#game-hud .gh-row .gh-setting-options select {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+  max-width: none;
+  text-align: center;
+  appearance: none;
+  color: #ececef;
+  background: transparent;
+  border: 0;
+  padding: .4em .1em;
+}
+#game-hud .gh-row select option { color: white; background: #25272a; }
+#game-hud .gh-row select:only-child, #game-hud .gh-output { width: 62%; }
+#game-hud .gh-confirm {
+  justify-content: flex-start;
+  padding-top: min(18dvh, 185px);
+}
+#game-hud .gh-confirm h2 { font-size: 1.56em; margin: 0; }
+#game-hud .gh-confirm-actions { width: 100%; gap: .9em; margin-top: min(9.3dvh, 95px); }
+#game-hud .gh-confirm-actions button { width: 26%; min-width: 7em; min-height: 3.3em; }
+#game-hud .gh-confirm-actions [data-gh=cancel] { background: transparent; border: 1px solid #9b9ca1; }
+#game-hud .gh-confirm-actions button:focus-visible, #game-hud .gh-footer button:focus-visible { outline-offset: 3px; }
+@media (max-width: 690px) {
+  #game-hud .gh-menu { width: 100%; min-width: 0; }
+  #game-hud .gh-tabs button { gap: .27em; }
+  #game-hud .gh-tabs i { width: 1.15em; height: 1.15em; }
+}
+@media (max-width: 430px) {
+  #game-hud .gh-tabs i { display: none; }
+  #game-hud .gh-menu { padding-inline: .5em; }
+}
+@media (max-height: 480px) {
+  #game-hud .gh-menu { height: 91dvh; }
+}
+html[data-airport-device=ipad] #game-hud .gh-footer button::before { display: none; }

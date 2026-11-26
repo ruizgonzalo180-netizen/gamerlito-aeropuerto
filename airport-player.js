@@ -53,10 +53,13 @@
     }
   }
   function updateHUD() {
-    const p = phase(), action = actionText(), key = [p,action,pauses.has('user')].join(':');
+    const p = phase(), action = actionText();
+    const keyPrompt = gate || finished;
+    const key = [p,action,keyPrompt,pauses.has('user')].join(':');
     if (sceneKey === key) return;
     sceneKey = key;
     hud.dataset.scene = p;
+    hud.toggleAttribute('data-key-prompt', keyPrompt);
     window.GameHUD?.setAction(action);
     const drivingNow = p === 'drive';
     const jump = hud.querySelector('[data-gh="jump"]'), sprint = hud.querySelector('[data-gh="sprint"]');
@@ -234,9 +237,13 @@
   video.addEventListener('timeupdate',tick);
   video.addEventListener('seeked',()=>{tick();reconcile();});
   surface.addEventListener('pointerdown',e=>{
-    if(!active||e.button!==0||pauses.has('menu')||drag)return;
+    const cameraButton = e.button === 0 || (e.pointerType === 'mouse' && e.button === 2);
+    if(!active||!cameraButton||pauses.has('menu')||drag)return;
     drag={id:e.pointerId,x:e.clientX,y:e.clientY,ox:offsetX,oy:offsetY};
     surface.setPointerCapture(e.pointerId);
+  });
+  surface.addEventListener('contextmenu',event=>{
+    if(active&&!pauses.has('menu'))event.preventDefault();
   });
   surface.addEventListener('pointermove',e=>{
     if(!drag||drag.id!==e.pointerId)return;
