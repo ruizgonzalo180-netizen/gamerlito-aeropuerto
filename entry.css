@@ -240,7 +240,7 @@
 #airport-cancel:hover { background: #353840ef; }
 #launcher .airport-event { display: block; padding: 0; width: 100%; margin-top: 16px; overflow: hidden; border-radius: 10px; }
 #launcher .airport-event img { width: 100%; object-fit: cover; }
-#launcher .airport-avatar { width: min(100%, 600px); border-radius: 12px; margin-top: 20px; }
+#launcher .airport-avatar-preview { width: min(100%, 600px); border-radius: 12px; margin-top: 20px; }
 @media (min-width: 731px) {
   #launcher .lx-home .lx-header { min-height: clamp(52px, 6.4vh, 70px); padding-top: 0; }
   #launcher .lx-home .lx-tabs { margin-bottom: 10px; }
