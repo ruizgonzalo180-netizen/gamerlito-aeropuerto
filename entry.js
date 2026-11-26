@@ -5,6 +5,7 @@
   const launchButton = document.getElementById('airport-launch');
   const opening = document.getElementById('airport-opening');
   const joinScreen = document.getElementById('airport-join');
+  const status = document.getElementById('airport-status');
   const cancel = document.getElementById('airport-cancel');
   const override = new URLSearchParams(location.search).get('device');
   const isTablet = /iPad|iPhone|Android/i.test(navigator.userAgent) ||
@@ -14,12 +15,16 @@
   let stage = tablet ? 'home' : 'desktop';
   let openingLimit;
   let joinLimit;
+  let statusTimer;
   // Time from pressing Play to the first playable frame in the Roblox recording.
   const joinDuration = (2528 - 2203) * 1000 / 60;
+  // The iPad reference changes to "Joining server" at frame 889 of the 731–958 sequence.
+  const connectingAt = joinDuration * (889 - 731) / (958 - 731);
 
   function clearScreens() {
     clearTimeout(openingLimit);
     clearTimeout(joinLimit);
+    clearTimeout(statusTimer);
     opening.onended = opening.onerror = opening.onplaying = null;
     opening.pause();
     if (opening.readyState && opening.currentTime) opening.currentTime = 0;
@@ -49,12 +54,16 @@
   function join() {
     if (stage === 'joining' || stage === 'game') return;
     stage = 'joining';
+    status.textContent = 'Waiting for an available server';
     joinScreen.hidden = false;
     desktop.hidden = true;
     launcher.hidden = true;
     window.AirportLobby?.hide();
     joinScreen.focus({preventScroll: true});
     window.dispatchEvent(new Event('airport:play-requested'));
+    statusTimer = setTimeout(() => {
+      status.textContent = 'Joining server';
+    }, connectingAt);
     joinLimit = setTimeout(() => {
       if (stage !== 'joining') return;
       stage = 'game';

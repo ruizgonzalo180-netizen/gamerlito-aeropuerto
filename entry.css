@@ -196,21 +196,43 @@
   position: fixed; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; background: #fdfdfd;
 }
 #airport-join {
-  z-index: 6; background: linear-gradient(#25252f 0% 40%, #24242c 56%, #121318);
+  --join-unit: min(.0672043vh, .0689655vw);
+  --join-unit: min(.0672043dvh, .0689655vw);
+  z-index: 6; background: linear-gradient(#15171b 0% 42%, #0c0e12);
   color: #f1f1f3; touch-action: manipulation; isolation: isolate; outline: none;
 }
+@media (orientation: portrait) {
+  #airport-join { --join-unit: min(.0672043vh,.0952381vw); --join-unit: min(.0672043dvh,.0952381vw); }
+}
+#airport-join-backdrop {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+  object-fit: cover; object-position: 25% 56%; opacity: .13; pointer-events: none;
+  transform: scale(1.03); transform-origin: 25% 56%;
+}
+.airport-join-panel {
+  position: relative; width: min(calc(1258 * var(--join-unit)), calc(100% - 28px));
+  height: calc(318 * var(--join-unit)); border-radius: calc(16 * var(--join-unit));
+  background: rgba(24,25,30,.79); pointer-events: none;
+}
 .airport-join-tile {
-  position: absolute; left: 50%; top: 34.075%; width: min(26.111vh, 54vw);
-  width: min(26.111dvh, 54vw); aspect-ratio: 1; transform: translate(-50%, -50%);
+  position: absolute; left: 50%; top: calc(50% - 324 * var(--join-unit));
+  width: calc(330 * var(--join-unit)); aspect-ratio: 1; transform: translateX(-50%);
 }
 #airport-join-logo {
-  display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 2.85%;
+  display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 3.94%;
 }
-#airport-join:not([hidden]) .airport-join-tile {
-  animation: airport-tile-exit 5.417s linear both;
+.airport-join-title {
+  position: absolute; left: 50%; top: calc(50% + 19 * var(--join-unit));
+  transform: translateX(-50%); width: calc(420 * var(--join-unit)); height: auto;
+}
+#airport-join:not([hidden]) #airport-join-backdrop {
+  animation: airport-cover-drift 5.417s linear both;
+}
+#airport-join:not([hidden]) .airport-join-panel {
+  animation: airport-panel-exit 5.417s linear both;
 }
 .airport-join-tile::after {
-  content: ""; position: absolute; inset: 0; border-radius: 2.85%; pointer-events: none;
+  content: ""; position: absolute; inset: 0; border-radius: 3.94%; pointer-events: none;
   background: linear-gradient(118deg, transparent 38%, rgba(255,255,255,.08) 45%, rgba(255,255,255,.30) 50%, transparent 62%) 100% 50% / 290% 100% no-repeat;
 }
 #airport-join:not([hidden]) .airport-join-tile::after {
@@ -220,13 +242,17 @@
   0%, 8% {background-position-x: 100%;}
   56%, 100% {background-position-x: 0%;}
 }
-@keyframes airport-tile-exit {
-  0%, 90% {transform: translate(-50%, -50%);}
-  98%, 100% {transform: translate(-50%, -45.4%) scale(.66);}
+@keyframes airport-cover-drift {
+  from {transform: scale(1.03); object-position: 25% 56%;}
+  to {transform: scale(1.075); object-position: 50% 56%;}
+}
+@keyframes airport-panel-exit {
+  0%, 90% {transform: scale(1);}
+  98%, 100% {transform: scale(.66);}
 }
 #airport-status {
-  position: absolute; right: 16px; bottom: max(2.25%, env(safe-area-inset-bottom)); left: 16px;
-  margin: 0; text-align: center; font: 500 clamp(12px,1.4vh,16px)/1.4 LxBuilder,Arial,sans-serif;
+  position: absolute; right: 16px; bottom: max(calc(28 * var(--join-unit)), env(safe-area-inset-bottom)); left: 16px;
+  margin: 0; text-align: center; font: 500 clamp(13px,calc(23 * var(--join-unit)),24px)/1.5 LxBuilder,Arial,sans-serif;
   color: #d5d6da;
 }
 #airport-cancel {
@@ -247,6 +273,7 @@
   #launcher .lx-home .lx-squares { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }
 @media (prefers-reduced-motion: reduce) {
-  #airport-join:not([hidden]) .airport-join-tile,
+  #airport-join:not([hidden]) #airport-join-backdrop,
+  #airport-join:not([hidden]) .airport-join-panel,
   #airport-join:not([hidden]) .airport-join-tile::after { animation: none; }
 }

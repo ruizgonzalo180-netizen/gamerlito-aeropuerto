@@ -23,9 +23,13 @@
   <div class="lx-toast" id="lx-toast" role="status" aria-live="polite"></div>
 </main>
 <section id="airport-join" tabindex="-1" hidden aria-label="Joining experience">
-  <div class="airport-join-tile">
-    <img id="airport-join-logo" src="launcher/992d18231337c844.webp" alt="Grand Theft Auto VI" width="768" height="768" decoding="sync" fetchpriority="high">
+  <img id="airport-join-backdrop" src="launcher/992d18231337c844.webp" alt="" width="768" height="768" decoding="sync">
+  <div class="airport-join-panel">
+    <div class="airport-join-tile">
+      <img id="airport-join-logo" src="launcher/992d18231337c844.webp" alt="Grand Theft Auto VI" width="768" height="768" decoding="sync" fetchpriority="high">
+    </div>
+    <img class="airport-join-title" src="entry/ipad-join-title.webp" alt="" width="420" height="64">
   </div>
-  <p id="airport-status" role="status">Joining server</p>
+  <p id="airport-status" role="status">Waiting for an available server</p>
   <button id="airport-cancel" type="button" aria-label="Cancel joining">Cancel</button>
 </section>

@@ -8,7 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="airport.webmanifest"><link rel="apple-touch-icon" href="gamerlito-192.png">
-<link rel="stylesheet" href="airport.css?v=d559ebe714"><link rel="stylesheet" href="entry.css?v=d2b365368d"><link rel="stylesheet" href="launcher-match.css?v=7a58dca1e4"><link rel="stylesheet" href="airport-player.css?v=1c35637b7d"><link rel="stylesheet" href="airport-hud.css?v=fa27e07eca"><link rel="stylesheet" href="recorded-menu.css?v=0ff1a9b8d1">
+<link rel="stylesheet" href="airport.css?v=d559ebe714"><link rel="stylesheet" href="entry.css?v=b366086b9d"><link rel="stylesheet" href="launcher-match.css?v=7a58dca1e4"><link rel="stylesheet" href="airport-player.css?v=1c35637b7d"><link rel="stylesheet" href="airport-hud.css?v=fa27e07eca"><link rel="stylesheet" href="recorded-menu.css?v=0ff1a9b8d1">
 <title>Gamerlito · Airport</title>
 </head>
 <body data-duo-mode="airport">
@@ -37,10 +37,14 @@
   <div class="lx-toast" id="lx-toast" role="status" aria-live="polite"></div>
 </main>
 <section id="airport-join" tabindex="-1" hidden aria-label="Joining experience">
-  <div class="airport-join-tile">
-    <img id="airport-join-logo" src="launcher/992d18231337c844.webp" alt="Grand Theft Auto VI" width="768" height="768" decoding="sync" fetchpriority="high">
+  <img id="airport-join-backdrop" src="launcher/992d18231337c844.webp" alt="" width="768" height="768" decoding="sync">
+  <div class="airport-join-panel">
+    <div class="airport-join-tile">
+      <img id="airport-join-logo" src="launcher/992d18231337c844.webp" alt="Grand Theft Auto VI" width="768" height="768" decoding="sync" fetchpriority="high">
+    </div>
+    <img class="airport-join-title" src="entry/ipad-join-title.webp" alt="" width="420" height="64">
   </div>
-  <p id="airport-status" role="status">Joining server</p>
+  <p id="airport-status" role="status">Waiting for an available server</p>
   <button id="airport-cancel" type="button" aria-label="Cancel joining">Cancel</button>
 </section>
 
@@ -107,6 +111,6 @@
 </section>
 
 </main>
-<script defer src="entry.js?v=eb55dbaba4"></script>
+<script defer src="entry.js?v=9c15f11935"></script>
 <script defer src="airport-hud.js?v=eb501fddfd"></script><script defer src="recorded-menu.js?v=55598674b9"></script><script defer src="airport-player.js?v=fd5e5e3b3f"></script><script defer src="airport.js?v=4c798b1c75"></script>
 </body></html>
