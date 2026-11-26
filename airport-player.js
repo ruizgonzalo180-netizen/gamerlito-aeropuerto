@@ -20,7 +20,7 @@
   const driving = 40.95;
   const clamp = (v,min,max) => Math.max(min,Math.min(max,v));
   const pauses = new Set();
-  let active = false, boarded = false, gate = false, finished = false;
+  let active = false, finished = false;
   let sprinting = false, x = 0, y = 0, rate = 1, sensitivity = 1;
   let fit = 'cover', volume = .65, mutedByBrowser = false;
   let quality = 'original', loadedQuality = 'original', pendingTime = null;
@@ -32,7 +32,7 @@
     if (!active) return 'home';
     if (finished) return 'end';
     if (video.currentTime < walkStart) return 'arrival';
-    if (!boarded) return 'walk';
+    if (video.currentTime < carDoor) return 'walk';
     return video.currentTime < driving ? 'board' : 'drive';
   }
   function speeds() {
@@ -45,7 +45,7 @@
   function actionText() {
     switch (phase()) {
       case 'arrival': return 'Start at terminal';
-      case 'walk': return video.currentTime >= carNearby ? 'Enter car' : (video.currentTime < approach ? 'Approach car' : 'Reach car');
+      case 'walk': return video.currentTime >= carNearby ? '' : (video.currentTime < approach ? 'Approach car' : 'Reach car');
       case 'board': return '';
       case 'drive': return pauses.has('brake') ? 'Drive' : 'Brake';
       case 'end': return 'Replay';
@@ -54,12 +54,10 @@
   }
   function updateHUD() {
     const p = phase(), action = actionText();
-    const keyPrompt = gate || finished;
-    const key = [p,action,keyPrompt,pauses.has('user')].join(':');
+    const key = [p,action,pauses.has('user')].join(':');
     if (sceneKey === key) return;
     sceneKey = key;
     hud.dataset.scene = p;
-    hud.toggleAttribute('data-key-prompt', keyPrompt);
     window.GameHUD?.setAction(action);
     const drivingNow = p === 'drive';
     const jump = hud.querySelector('[data-gh="jump"]'), sprint = hud.querySelector('[data-gh="sprint"]');
@@ -77,7 +75,7 @@
     prompt.hidden = !active || pauses.has('menu') || (!failed && !requiresTap && (!mutedByBrowser || !volume));
     prompt.textContent = failed ? 'Retry video' : requiresTap ? 'Play' : 'Enable sound';
   }
-  function blocked() {return !active || loading || failed || finished || gate || pauses.size || document.hidden;}
+  function blocked() {return !active || loading || failed || finished || pauses.size || document.hidden;}
   function reconcile() {
     mediaPrompt(); updateHUD();
     if (blocked()) { if(!video.paused)video.pause(); return; }
@@ -115,7 +113,6 @@
   }
   function seek(t) {
     t = Math.max(0, Number.isFinite(video.duration) ? Math.min(t,video.duration-.025) : t);
-    if (!boarded) t = Math.min(t,carDoor);
     if (video.readyState<1 || loading) pendingTime=t;
     else video.currentTime=t;
   }
@@ -138,13 +135,7 @@
   }
   function tick(){
     if(!active)return;
-    if(!boarded && !gate && video.currentTime >= carDoor){
-      gate=true; video.pause(); seek(carDoor);
-    }
     updateHUD();
-  }
-  function board(){
-    boarded=true; gate=false; pauses.delete('user'); seek(carDoor); resetCamera(); reconcile();
   }
   function brake(){
     if(pauses.has('brake'))pauses.delete('brake');else pauses.add('brake');
@@ -155,8 +146,7 @@
     switch(phase()){
       case 'arrival': seek(walkStart); break;
       case 'walk':
-        if(video.currentTime>=carNearby)board();
-        else seek(video.currentTime < approach ? approach : carNearby+.1);
+        if(video.currentTime < carNearby) seek(video.currentTime < approach ? approach : carNearby+.1);
         break;
       case 'drive': brake(); break;
       case 'end': restart(); break;
@@ -167,11 +157,11 @@
     if(!active||pauses.has('menu'))return;
     if(phase()==='drive'){brake();return;}
     if(finished){restart();return;}
-    if(phase()==='board'||gate)return;
-    seek(video.currentTime+5); tick(); reconcile();
+    if(phase()==='board')return;
+    seek(Math.min(video.currentTime+5,carDoor)); tick(); reconcile();
   }
   function initPlayback(){
-    pendingTime=0;boarded=false;gate=false;finished=false;failed=false;requiresTap=false;sprinting=false;x=0;y=0;
+    pendingTime=0;finished=false;failed=false;requiresTap=false;sprinting=false;x=0;y=0;
     pauses.clear();sceneKey='';resetCamera();
     video.loop=false;video.playsInline=true;video.hidden=false;video.style.opacity='1';
     video.muted=mutedByBrowser||volume===0;video.volume=volume;
@@ -202,7 +192,6 @@
   function togglePlayback(){
     if(!active)return;
     if(finished){restart();return;}
-    if(gate){board();return;}
     if(pauses.has('user'))pauses.delete('user');else pauses.add('user');
     reconcile();
   }

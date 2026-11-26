@@ -34,19 +34,9 @@ html[data-airport-device="pc"] #game-hud .gh-scene-action {
   background: rgba(18, 19, 21, .8);
   font-size: 14px;
 }
-html[data-airport-device="pc"] #game-hud[data-key-prompt]:not(.gh-modal-open) .gh-scene-action {
+html[data-airport-device="pc"] #game-hud[data-scene="end"]:not(.gh-modal-open) .gh-scene-action {
   display: flex;
 }
 html[data-airport-device="pc"] #game-hud .gh-scene-action svg {
   display: none;
-}
-html[data-airport-device="pc"] #game-hud .gh-scene-action::before {
-  content: "E";
-  display: grid;
-  place-items: center;
-  width: 21px;
-  height: 21px;
-  border: 1px solid rgba(255, 255, 255, .8);
-  border-radius: 4px;
-  font-size: 12px;
 }

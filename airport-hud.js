@@ -261,7 +261,8 @@
     const rows=[
       ["Move, accelerate or slow down","Joystick, W/S or ↑/↓"],
       ["Look left or right","Drag the view, use the stick or A/D"],
-      ["Board the car / scene action","Action button or E"],
+      ["Board the car","Automatic at the car door"],
+      ["Scene action","Action button or E"],
       ["Run or accelerate","Hold the sprint button or Shift"],
       ["Skip ahead on foot / brake while driving","On-screen arrow or Space"],
       ["Pause or resume","P"],
