@@ -9,21 +9,11 @@
 #launcher .lx-friends [data-person="11"] .lx-portrait { object-fit: contain; object-position: left center; }
 #launcher .lx-platform-menu { margin-top: auto; }
 #launcher .lx-reference-menu img, #launcher .lx-platform-menu img { border-radius: 0; }
-#launcher .lx-reference-skeleton { display: none; }
-#launcher .lx-recorded-detail.lx-hero-pending .lx-reference-error { visibility: hidden; }
-#launcher .lx-recorded-detail.lx-hero-pending .lx-reference-skeleton {
-  display: grid; gap: 12px; position: absolute; inset: auto 0; margin-top: 16px;
-}
-#launcher .lx-reference-skeleton div { background: #e3e5e8; border-radius: 7px; }
-#launcher .lx-reference-skeleton div:first-child { width: 65%; height: 16px; }
-#launcher .lx-reference-skeleton div:last-child { width: 100%; aspect-ratio: 1.8; }
-#launcher .lx-reference-error { display: grid; justify-items: center; text-align: center; color: #4b4e55; }
-#launcher .lx-reference-retry { background: #e4e6e9; border-radius: 6px; font-weight: 600; }
 #launcher .lx-quick-tile { min-width: 0; }
 #launcher .lx-quick-tile .lx-card { width: 100%; }
 #launcher .lx-quick-play { display: grid; place-items: center; width: 100%; padding: 0; background: #3956f6; color: white; border-radius: 5px; }
 #launcher .lx-quick-play i { width: 50%; height: 76%; }
-#launcher .lx-quick-play:hover, #launcher .lx-reference-retry:hover { filter: brightness(.93); }
+#launcher .lx-quick-play:hover { filter: brightness(.93); }
 #launcher .lx-reference-digest { margin-top: 14px; }
 #launcher .lx-recorded-detail { position: relative; }
 @media (hover: hover) and (pointer: fine) {
@@ -84,18 +74,10 @@
   #launcher .lx-recorded-detail .lx-play-row { margin-top: 0; }
   #launcher .lx-recorded-detail .lx-play { width: calc(162 * var(--u)); min-width: 0; height: calc(33 * var(--u)); min-height: 0; border-radius: calc(5 * var(--u)); padding: calc(5 * var(--u)); }
   #launcher .lx-recorded-detail .lx-play i { width: calc(21 * var(--u)); height: calc(21 * var(--u)); }
-  #launcher .lx-reference-error { margin-top: calc(38 * var(--u)); }
-  #launcher .lx-reference-error svg { width: calc(62 * var(--u)); height: calc(55 * var(--u)); }
-  #launcher .lx-reference-error p { margin: calc(8 * var(--u)) 0; font-size: calc(11.5 * var(--u)); }
-  #launcher .lx-reference-retry { padding: calc(7 * var(--u)) calc(9 * var(--u)); font-size: calc(10 * var(--u)); }
 }
 @media (max-width: 730px) {
   #launcher .lx-header-tools .lx-reference-profile { display: none; }
   #launcher .lx-header-tools img { width: 20px; height: 20px; }
   #launcher .lx-recent .lx-cards.lx-squares { grid-template-columns: repeat(3, minmax(0,1fr)); }
   #launcher .lx-quick-play { height: 34px; margin-top: 4px; }
-  #launcher .lx-reference-error { margin: 28px auto; }
-  #launcher .lx-reference-error svg { width: 56px; height: 50px; }
-  #launcher .lx-reference-error p { font-size: 13px; margin: 10px 0; }
-  #launcher .lx-reference-retry { padding: 7px 14px; font-size: 14px; }
 }

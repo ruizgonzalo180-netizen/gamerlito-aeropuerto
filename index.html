@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="preload" as="image" href="launcher/992d18231337c844.webp">
 <meta name="theme-color" content="#101114"><meta name="color-scheme" content="dark light">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="airport.webmanifest"><link rel="apple-touch-icon" href="gamerlito-192.png">
-<link rel="stylesheet" href="airport.css?v=d559ebe714"><link rel="stylesheet" href="entry.css?v=70a90c7e91"><link rel="stylesheet" href="launcher-match.css?v=610ead34ea"><link rel="stylesheet" href="airport-player.css?v=1c35637b7d"><link rel="stylesheet" href="airport-hud.css?v=fa27e07eca"><link rel="stylesheet" href="recorded-menu.css?v=0ff1a9b8d1">
+<link rel="stylesheet" href="airport.css?v=d559ebe714"><link rel="stylesheet" href="entry.css?v=d2b365368d"><link rel="stylesheet" href="launcher-match.css?v=7a58dca1e4"><link rel="stylesheet" href="airport-player.css?v=1c35637b7d"><link rel="stylesheet" href="airport-hud.css?v=fa27e07eca"><link rel="stylesheet" href="recorded-menu.css?v=0ff1a9b8d1">
 <title>Gamerlito · Airport</title>
 </head>
 <body data-duo-mode="airport">
@@ -36,10 +37,10 @@
   <div class="lx-toast" id="lx-toast" role="status" aria-live="polite"></div>
 </main>
 <section id="airport-join" tabindex="-1" hidden aria-label="Joining experience">
-  <video id="airport-join-movie" src="entry/joining-recording.mp4" poster="entry/joining-first.webp" muted playsinline webkit-playsinline disablepictureinpicture preload="auto" aria-hidden="true"></video>
-  <img id="airport-join-still" src="entry/joining-first.webp" hidden alt="">
-  <p id="airport-status" class="airport-sr-only" aria-live="polite">Joining server</p>
-  <button id="airport-white-close" type="button" aria-label="Cancel joining"></button>
+  <div class="airport-join-tile">
+    <img id="airport-join-logo" src="launcher/992d18231337c844.webp" alt="Grand Theft Auto VI" width="768" height="768" decoding="sync" fetchpriority="high">
+  </div>
+  <p id="airport-status" role="status">Joining server</p>
   <button id="airport-cancel" type="button" aria-label="Cancel joining">Cancel</button>
 </section>
 
@@ -106,6 +107,6 @@
 </section>
 
 </main>
-<script defer src="entry.js?v=8489eddf4a"></script>
+<script defer src="entry.js?v=eb55dbaba4"></script>
 <script defer src="airport-hud.js?v=eb501fddfd"></script><script defer src="recorded-menu.js?v=55598674b9"></script><script defer src="airport-player.js?v=fd5e5e3b3f"></script><script defer src="airport.js?v=4c798b1c75"></script>
 </body></html>

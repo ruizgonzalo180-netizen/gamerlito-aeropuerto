@@ -122,19 +122,10 @@
       '<div class="lx-reference-digest">'+grid(recommended.slice(4),false)+'</div>'+
       '<section class="lx-section lx-recent"><h2>'+button('continue','Continue'+ico('next'),null,'')+'</h2><div class="lx-cards lx-squares">'+recentGames.map(g=>card(g,false,true)).join('')+'</div></section>'+discoverAvatars();
   }
-  let detailRecovered=false, quickJoinTimer=0;
-  function recordedDetail(g){
-    return '<div class="lx-detail-nav">'+button('back','', 'close','lx-back','aria-label="Back to library"')+button('navigation','','menu','lx-nav-toggle','aria-label="Navigation menu"')+'</div>'+
-      '<article class="lx-detail-inner lx-recorded-detail"><div class="lx-detail-head"><img class="lx-detail-tile" src="'+g.img+'" alt=""><div class="lx-detail-meta"><h1>'+visibleText(g.name)+'</h1>'+
-      '<div class="lx-play-row">'+button('play','', 'play','lx-play','aria-label="Play Grand Theft Auto VI" title="Play"')+'</div></div></div>'+
-      '<div class="lx-reference-skeleton" aria-hidden="true"><div></div><div></div></div>'+
-      '<div class="lx-reference-error"><svg aria-hidden="true" viewBox="0 0 64 56" fill="none" stroke="currentColor" stroke-width="4.7" stroke-linecap="round" stroke-linejoin="round"><path d="M30 4.5a2.2 2.2 0 014 0l27 46a2 2 0 01-1.7 3H4.7a2 2 0 01-1.7-3z"/><path d="M32 21v12"/><circle cx="32" cy="43" r="2.8" fill="currentColor" stroke="none"/></svg><p>Something went wrong. Please try again.</p>'+button('retry-details','Retry',null,'lx-reference-retry')+'</div></article>';
-  }
   function detail(){
     const g=localGame(),play=g.id==='gta',favorite=data.favorites.includes(g.id),like=data.likes.includes(g.id),alert=data.alerts.includes(g.id);
-    if(play&&!detailRecovered)return recordedDetail(g);
     const ctl=(id,label,icon,on)=>button(id,label,icon,'','aria-pressed="'+on+'"');
-    return '<div class="lx-detail-nav">'+button('back','', 'close','lx-back','aria-label="Back to library"')+button('navigation','','menu','lx-nav-toggle','aria-label="Navigation menu" aria-haspopup="dialog" aria-controls="lx-dialog"')+'</div><article class="lx-detail-inner"><div class="lx-detail-head"><img class="lx-detail-tile" src="'+g.img+'" alt=""><div class="lx-detail-meta"><h1>'+visibleText(g.name)+'</h1>'+
+    return '<div class="lx-detail-nav">'+button('back','', 'close','lx-back','aria-label="Back to library"')+button('navigation','','menu','lx-nav-toggle','aria-label="Navigation menu" aria-haspopup="dialog" aria-controls="lx-dialog"')+'</div><article class="lx-detail-inner'+(play?' lx-recorded-detail':'')+'"><div class="lx-detail-head"><img class="lx-detail-tile" src="'+g.img+'" alt=""><div class="lx-detail-meta"><h1>'+visibleText(g.name)+'</h1>'+
       '<div class="lx-age">'+(play?'Maturity: Content May Vary · Ages 16+':'Experience preview')+'</div>'+
       (play?button('creator',hiddenCreator,null,'lx-creator','aria-label="Open creator profile"'):'')+
       '<div class="lx-play-row">'+(play?button('play','', 'play','lx-play','aria-label="Play Grand Theft Auto VI" title="Play"'):button('art','View artwork',null,'lx-play'))+
@@ -183,21 +174,12 @@
   }
   function close(){if(dialog.open)dialog.close();modal='';}
   function setPage(name){
-    clearTimeout(quickJoinTimer);
     if(page==='home')homeScroll=content.scrollTop;
     if(name!=='search'){query.value='';maskInput(query);}
     close();page=name;render();
   }
   function details(id){
-    detailOrigin=page;selection=id;detailRecovered=false;setPage('details');
-    if(id!=='gta')return;
-    
-    const article=content.querySelector('.lx-detail-inner');
-    for(const [state,frames] of [['cover',11],['meta',13],['hero',13]]){
-      const phase='lx-'+state+'-pending';
-      article.classList.add(phase);
-      setTimeout(()=>article.classList.remove(phase),frames*1000/60);
-    }
+    detailOrigin=page;selection=id;setPage('details');
   }
   function openModal(id,title,body,gallery=false){
     modal=id;root.querySelector('#lx-dialog-title').innerHTML=visibleText(title);dialogBody.innerHTML=body;
@@ -301,12 +283,12 @@
       case 'home':case 'charts':case 'me':case 'moments':case 'favorites':case 'continue':setPage(act);break;
       case 'details':details(b.dataset.id);break;
       case 'quick-play':
-        details('gta');enterFullscreen(false);
-        quickJoinTimer=setTimeout(()=>{if(page==='details'&&!root.hidden&&!dialog.open)window.AirportEntry.join();},1200);
+      case 'play':
+        close();
+        enterFullscreen(false);
+        window.AirportEntry.join();
         break;
-      case 'retry-details':clearTimeout(quickJoinTimer);detailRecovered=true;render();break;
       case 'back':setPage(detailOrigin==='details'?'home':detailOrigin);if(page==='home')content.scrollTop=homeScroll;break;
-      case 'play':{clearTimeout(quickJoinTimer);close();enterFullscreen(false);window.AirportEntry.join();}break;
       case 'event':openModal('event','Send Gratitude Sky-High','<img class="lx-gallery-image" src="entry/event.webp" alt="The Great Build">',true);break;
       case 'art':artwork(g);break;
       case 'moment-art':artwork(games[0]);break;
