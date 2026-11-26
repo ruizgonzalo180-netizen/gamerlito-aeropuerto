@@ -1,0 +1,25 @@
+<section id="airport-desktop" aria-label="Desktop"><div class="airport-desktop-stage"><img src="entry/desktop.webp" alt="Desktop with Roblox Player"><button id="airport-launch" type="button" aria-label="Open Roblox Player" title="Open Roblox Player"></button><video id="airport-opening" muted playsinline preload="none" hidden></video></div></section>
+<main id="launcher" aria-label="Roblox experience launcher">
+  <aside class="lx-rail" aria-label="Navigation">
+    <button type="button" data-lx="home" data-nav="home"><i data-ico="home"></i><span>Home</span></button>
+    <button type="button" data-lx="moments" data-nav="moments"><i data-ico="moments"></i><span>Moments</span></button>
+    <button type="button" data-lx="chat" data-nav="chat"><i data-ico="chat"></i><span>Chat</span></button>
+    <button type="button" data-lx="me" data-nav="me"><img src="launcher/e7dbdb877544afa0.webp" alt=""><span>Me</span></button>
+    <button type="button" data-lx="more"><i data-ico="more"></i><span>More</span></button>
+  </aside>
+  <div class="lx-shell">
+    <header class="lx-header">
+      <button type="button" class="lx-nav-toggle" data-lx="navigation" aria-label="Navigation menu" aria-haspopup="dialog" aria-controls="lx-dialog"><i data-ico="menu"></i></button>
+      <button type="button" class="lx-brand" data-lx="home" aria-label="Roblox home"><img src="entry/wordmark.webp" alt="Roblox"></button>
+      <form class="lx-search" role="search" id="lx-search-form"><i data-ico="search"></i><input id="lx-query" aria-label="Search experiences" placeholder="Search" autocomplete="off" type="search"></form>
+      <div class="lx-header-tools"><button type="button" data-lx="fullscreen" aria-label="Full screen" title="Full screen"><i data-ico="expand"></i></button><button type="button" data-lx="favorites" aria-label="Favorites" title="Favorites"><i data-ico="star"></i></button><button type="button" data-lx="notices" aria-label="Notifications" title="Notifications"><i data-ico="bell"></i></button></div>
+    </header>
+    <div id="lx-content" class="lx-scroll"></div>
+  </div>
+  <dialog class="lx-dialog" id="lx-dialog" aria-labelledby="lx-dialog-title">
+    <div class="lx-dialog-head"><h2 id="lx-dialog-title"></h2><button type="button" data-lx="close" aria-label="Close"><i data-ico="close"></i></button></div>
+    <div id="lx-dialog-body"></div>
+  </dialog>
+  <div class="lx-toast" id="lx-toast" role="status" aria-live="polite"></div>
+</main>
+<section id="airport-join" hidden aria-live="polite" aria-label="Joining experience"><div class="airport-join-card"><img src="launcher/992d18231337c844.webp" alt="Game icon"><p class="airport-masked" aria-hidden="true">Grand Theft Auto VI</p><p id="airport-status">Joining server</p><button id="airport-cancel" type="button">Cancel</button></div></section>

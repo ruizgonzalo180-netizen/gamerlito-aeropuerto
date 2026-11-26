@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101114"><meta name="color-scheme" content="dark light">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="airport.webmanifest"><link rel="apple-touch-icon" href="gamerlito-192.png">
+<link rel="stylesheet" href="airport.css"><link rel="stylesheet" href="entry.css"><link rel="stylesheet" href="airport-player.css"><link rel="stylesheet" href="airport-hud.css">
+<title>Gamerlito · Airport</title>
+</head>
+<body data-duo-mode="airport">
+<section id="airport-desktop" aria-label="Desktop"><div class="airport-desktop-stage"><img src="entry/desktop.webp" alt="Desktop with Roblox Player"><button id="airport-launch" type="button" aria-label="Open Roblox Player" title="Open Roblox Player"></button><video id="airport-opening" muted playsinline preload="none" hidden></video></div></section>
+<main id="launcher" aria-label="Roblox experience launcher">
+  <aside class="lx-rail" aria-label="Navigation">
+    <button type="button" data-lx="home" data-nav="home"><i data-ico="home"></i><span>Home</span></button>
+    <button type="button" data-lx="moments" data-nav="moments"><i data-ico="moments"></i><span>Moments</span></button>
+    <button type="button" data-lx="chat" data-nav="chat"><i data-ico="chat"></i><span>Chat</span></button>
+    <button type="button" data-lx="me" data-nav="me"><img src="launcher/e7dbdb877544afa0.webp" alt=""><span>Me</span></button>
+    <button type="button" data-lx="more"><i data-ico="more"></i><span>More</span></button>
+  </aside>
+  <div class="lx-shell">
+    <header class="lx-header">
+      <button type="button" class="lx-nav-toggle" data-lx="navigation" aria-label="Navigation menu" aria-haspopup="dialog" aria-controls="lx-dialog"><i data-ico="menu"></i></button>
+      <button type="button" class="lx-brand" data-lx="home" aria-label="Roblox home"><img src="entry/wordmark.webp" alt="Roblox"></button>
+      <form class="lx-search" role="search" id="lx-search-form"><i data-ico="search"></i><input id="lx-query" aria-label="Search experiences" placeholder="Search" autocomplete="off" type="search"></form>
+      <div class="lx-header-tools"><button type="button" data-lx="fullscreen" aria-label="Full screen" title="Full screen"><i data-ico="expand"></i></button><button type="button" data-lx="favorites" aria-label="Favorites" title="Favorites"><i data-ico="star"></i></button><button type="button" data-lx="notices" aria-label="Notifications" title="Notifications"><i data-ico="bell"></i></button></div>
+    </header>
+    <div id="lx-content" class="lx-scroll"></div>
+  </div>
+  <dialog class="lx-dialog" id="lx-dialog" aria-labelledby="lx-dialog-title">
+    <div class="lx-dialog-head"><h2 id="lx-dialog-title"></h2><button type="button" data-lx="close" aria-label="Close"><i data-ico="close"></i></button></div>
+    <div id="lx-dialog-body"></div>
+  </dialog>
+  <div class="lx-toast" id="lx-toast" role="status" aria-live="polite"></div>
+</main>
+<section id="airport-join" hidden aria-live="polite" aria-label="Joining experience"><div class="airport-join-card"><img src="launcher/992d18231337c844.webp" alt="Game icon"><p class="airport-masked" aria-hidden="true">Grand Theft Auto VI</p><p id="airport-status">Joining server</p><button id="airport-cancel" type="button">Cancel</button></div></section>
+
+<main id="game-view" hidden tabindex="-1" aria-label="Airport experience">
+ <div id="game-surface">
+ <video id="game-footage" playsinline webkit-playsinline disablepictureinpicture preload="metadata" src="media/airport.mp4" data-original="media/airport.mp4" data-mobile="media/airport-720.mp4" data-compact="media/airport-720.mp4" poster="media/airport.jpg" aria-label="Airport gameplay"></video>
+ </div>
+ <section id="airport-intro" hidden aria-label="Game opening"><video id="opening-video" muted playsinline webkit-playsinline preload="none" poster="gamerlito-512.png"></video><button id="skip-opening" type="button">Skip intro</button></section>
+ <section id="game-hud" aria-label="Roblox controls" data-stage="launch" tabindex="-1" hidden>
+  <div class="gh-toolbar">
+    <button type="button" class="gh-logo gh-tool" data-gh="menu" title="Roblox menu (Esc)" aria-label="Roblox menu" aria-expanded="false"><i class="gh-glyph gh-logo-glyph"></i></button>
+    <div class="gh-tools">
+      <button type="button" class="gh-tool" data-gh="tools" title="Experience controls" aria-label="Experience controls" aria-expanded="false"><i class="gh-glyph gh-list-glyph"></i></button>
+      <button type="button" class="gh-tool" data-gh="chat" title="Chat (/)" aria-label="Chat" aria-expanded="false"><i class="gh-glyph gh-chat-glyph"></i></button>
+      <button type="button" class="gh-tool" data-gh="audio" title="Audio settings" aria-label="Audio settings"><i class="gh-glyph gh-audio-glyph"></i></button>
+    </div>
+  </div>
+  <div class="duo-transport" role="group" aria-label="Playback controls">
+    <button type="button" data-gh="playback" aria-label="Pause playback" title="Pause (P)" aria-keyshortcuts="P" class="gh-tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="duo-pause" d="M7 4h3v16H7zm7 0h3v16h-3z"/><path class="duo-play" d="M6 3.5 20 12 6 20.5z"/></svg></button>
+    <button type="button" data-gh="replay" aria-label="Restart the clip" title="Restart from the beginning (R)" aria-keyshortcuts="R" class="gh-tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 5v5h5M4.3 10a8 8 0 1 1 .8 6"/></svg></button>
+  </div>
+  <div class="gh-quick" hidden aria-label="Experience controls">
+    <button type="button" data-gh="settings">Settings</button>
+    <button type="button" data-gh="gallery">Gallery</button>
+    <button type="button" data-gh="help">Help</button>
+  </div>
+  <section class="gh-chatbox" hidden aria-label="Experience chat">
+    <div class="gh-chat-tabs"><button type="button" data-gh="here">Here</button><button type="button" data-gh="phrases">Quick chat</button><button type="button" class="gh-chat-x" data-gh="close-chat" aria-label="Close chat">×</button></div>
+    <div class="gh-messages" role="log" aria-live="polite"></div>
+    <div class="gh-phrases" hidden>
+      <button type="button" data-phrase="Hey!">Hey!</button><button type="button" data-phrase="Let's go!">Let’s go!</button><button type="button" data-phrase="Nice ride!">Nice ride!</button><button type="button" data-phrase="GG">GG</button>
+    </div>
+    <form class="gh-chat-form"><input type="text" maxlength="180" autocomplete="off" placeholder="Tap here to chat" aria-label="Message"><button type="submit" aria-label="Send message" title="Send message">➤</button></form>
+  </section>
+  <div class="gh-stick" role="group" aria-label="Move or steer" title="Move or steer (WASD or arrow keys)"><span></span></div>
+  <button type="button" class="gh-jump" data-gh="jump" aria-label="Jump or brake" title="Jump or brake (Space)"><span></span></button>
+  <button type="button" class="gh-scene-action" data-gh="act" hidden aria-keyshortcuts="E">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg><i class="gh-action-glyph" aria-hidden="true" hidden></i><span></span>
+  </button>
+  <button type="button" class="gh-sprint" data-gh="sprint" aria-label="Hold to run or accelerate" aria-keyshortcuts="Shift" title="Hold to run or accelerate (Shift)">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="15.3" cy="4.4" r="1.9"/><path d="m4 13 3.9-.7 3-4.8 3.4 2.1 2.2 3.7 3.9.4M12.3 9.4 10 14.5l4.1 2.3 1 4.4M10.3 14.8 7 19.4l-4 .5"/></svg>
+  </button>
+  <div class="gh-shade" hidden>
+    <section class="gh-menu" role="dialog" aria-modal="true" aria-label="Roblox menu" tabindex="-1">
+      <nav aria-label="Menu tabs" class="gh-tabs">
+        <button type="button" data-tab="people"><i>♧</i><span>People</span></button>
+        <button type="button" data-tab="settings"><i>⚙</i><span>Settings</span></button>
+        <button type="button" data-tab="gallery"><i>▧</i><span>Gallery</span></button>
+        <button type="button" data-tab="report"><i>⚑</i><span>Report</span></button>
+        <button type="button" data-tab="help"><i>ⓘ</i><span>Help</span></button>
+      </nav>
+      <div class="gh-content"></div>
+      <div class="gh-footer"><button type="button" data-gh="leave" aria-label="Leave">Leave</button><button type="button" data-gh="respawn" aria-label="Respawn">Respawn</button><button type="button" class="gh-primary" data-gh="resume" aria-label="Resume">Resume</button></div>
+    </section>
+  </div>
+  <output id="airport-stats" hidden aria-label="Playback statistics"></output>
+  <div class="gh-toast" role="status" hidden></div>
+</section>
+
+</main>
+<script defer src="entry.js"></script>
+<script defer src="airport-hud.js"></script><script defer src="airport-player.js"></script><script defer src="airport.js"></script>
+</body></html>

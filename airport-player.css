@@ -1,0 +1,4 @@
+#game-surface{pointer-events:auto;touch-action:none;overflow:hidden}
+#game-footage{transform-origin:center;will-change:transform}
+#airport-media-prompt{position:fixed;right:max(18px,env(safe-area-inset-right));top:max(68px,9%,env(safe-area-inset-top));z-index:20;padding:8px 14px;border-radius:16px;background:#15181de8;border:1px solid #ffffff40;color:white;cursor:pointer;font:600 14px/1.3 Arial,sans-serif}
+#airport-media-prompt[hidden]{display:none}

@@ -1,0 +1,50 @@
+<section id="game-hud" aria-label="Roblox controls" data-stage="launch" tabindex="-1" hidden>
+  <div class="gh-toolbar">
+    <button type="button" class="gh-logo gh-tool" data-gh="menu" title="Roblox menu (Esc)" aria-label="Roblox menu" aria-expanded="false"><i class="gh-glyph gh-logo-glyph"></i></button>
+    <div class="gh-tools">
+      <button type="button" class="gh-tool" data-gh="tools" title="Experience controls" aria-label="Experience controls" aria-expanded="false"><i class="gh-glyph gh-list-glyph"></i></button>
+      <button type="button" class="gh-tool" data-gh="chat" title="Chat (/)" aria-label="Chat" aria-expanded="false"><i class="gh-glyph gh-chat-glyph"></i></button>
+      <button type="button" class="gh-tool" data-gh="audio" title="Audio settings" aria-label="Audio settings"><i class="gh-glyph gh-audio-glyph"></i></button>
+    </div>
+  </div>
+  <div class="duo-transport" role="group" aria-label="Playback controls">
+    <button type="button" data-gh="playback" aria-label="Pause playback" title="Pause (P)" aria-keyshortcuts="P" class="gh-tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="duo-pause" d="M7 4h3v16H7zm7 0h3v16h-3z"/><path class="duo-play" d="M6 3.5 20 12 6 20.5z"/></svg></button>
+    <button type="button" data-gh="replay" aria-label="Restart the clip" title="Restart from the beginning (R)" aria-keyshortcuts="R" class="gh-tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 5v5h5M4.3 10a8 8 0 1 1 .8 6"/></svg></button>
+  </div>
+  <div class="gh-quick" hidden aria-label="Experience controls">
+    <button type="button" data-gh="settings">Settings</button>
+    <button type="button" data-gh="gallery">Gallery</button>
+    <button type="button" data-gh="help">Help</button>
+  </div>
+  <section class="gh-chatbox" hidden aria-label="Experience chat">
+    <div class="gh-chat-tabs"><button type="button" data-gh="here">Here</button><button type="button" data-gh="phrases">Quick chat</button><button type="button" class="gh-chat-x" data-gh="close-chat" aria-label="Close chat">×</button></div>
+    <div class="gh-messages" role="log" aria-live="polite"></div>
+    <div class="gh-phrases" hidden>
+      <button type="button" data-phrase="Hey!">Hey!</button><button type="button" data-phrase="Let's go!">Let’s go!</button><button type="button" data-phrase="Nice ride!">Nice ride!</button><button type="button" data-phrase="GG">GG</button>
+    </div>
+    <form class="gh-chat-form"><input type="text" maxlength="180" autocomplete="off" placeholder="Tap here to chat" aria-label="Message"><button type="submit" aria-label="Send message" title="Send message">➤</button></form>
+  </section>
+  <div class="gh-stick" role="group" aria-label="Move or steer" title="Move or steer (WASD or arrow keys)"><span></span></div>
+  <button type="button" class="gh-jump" data-gh="jump" aria-label="Jump or brake" title="Jump or brake (Space)"><span></span></button>
+  <button type="button" class="gh-scene-action" data-gh="act" hidden aria-keyshortcuts="E">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg><i class="gh-action-glyph" aria-hidden="true" hidden></i><span></span>
+  </button>
+  <button type="button" class="gh-sprint" data-gh="sprint" aria-label="Hold to run or accelerate" aria-keyshortcuts="Shift" title="Hold to run or accelerate (Shift)">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="15.3" cy="4.4" r="1.9"/><path d="m4 13 3.9-.7 3-4.8 3.4 2.1 2.2 3.7 3.9.4M12.3 9.4 10 14.5l4.1 2.3 1 4.4M10.3 14.8 7 19.4l-4 .5"/></svg>
+  </button>
+  <div class="gh-shade" hidden>
+    <section class="gh-menu" role="dialog" aria-modal="true" aria-label="Roblox menu" tabindex="-1">
+      <nav aria-label="Menu tabs" class="gh-tabs">
+        <button type="button" data-tab="people"><i>♧</i><span>People</span></button>
+        <button type="button" data-tab="settings"><i>⚙</i><span>Settings</span></button>
+        <button type="button" data-tab="gallery"><i>▧</i><span>Gallery</span></button>
+        <button type="button" data-tab="report"><i>⚑</i><span>Report</span></button>
+        <button type="button" data-tab="help"><i>ⓘ</i><span>Help</span></button>
+      </nav>
+      <div class="gh-content"></div>
+      <div class="gh-footer"><button type="button" data-gh="leave" aria-label="Leave">Leave</button><button type="button" data-gh="respawn" aria-label="Respawn">Respawn</button><button type="button" class="gh-primary" data-gh="resume" aria-label="Resume">Resume</button></div>
+    </section>
+  </div>
+  <output id="airport-stats" hidden aria-label="Playback statistics"></output>
+  <div class="gh-toast" role="status" hidden></div>
+</section>
