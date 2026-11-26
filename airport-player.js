@@ -127,6 +127,7 @@
     panY=clamp(offsetY,-.095,.095);
     scale=1+2*Math.max(Math.abs(panX),Math.abs(panY));
     video.style.transform=scale===1?'none':'translate('+(-panX*100)+'%, '+(-panY*100)+'%) scale('+scale+')';
+    window.AirportVitals.layout();
   }
   function control(h,v) {
     if(!active)return;
@@ -178,6 +179,7 @@
   function start(){
     if(active)return;
     active=true;initPlayback();
+    window.AirportVitals.start();
     window.GameHUD?.mount();window.GameHUD?.setStage('playing');sceneKey='';
     if(quality!==loadedQuality || !video.getAttribute('src') || video.error)changeQuality(quality,true);
     else if(video.readyState>=1){pendingTime=null;loading=false;seek(0);}
@@ -194,6 +196,7 @@
   function leave(){
     if(!active)return;
     active=false;clearInterval(timer);video.pause();++attemptNumber;playPending=false;
+    window.AirportVitals.stop();
     window.GameHUD?.unmount();prompt.hidden=true;resetCamera();document.dispatchEvent(new Event('airport:leave'));
   }
   function togglePlayback(){
@@ -213,6 +216,7 @@
     const w=video.videoWidth*ratio,h=video.videoHeight*ratio,ctx=c.getContext('2d');
     ctx.fillStyle='#101116';ctx.fillRect(0,0,c.width,c.height);
     ctx.drawImage(video,(c.width-w)/2-panX*c.width,(c.height-h)/2-panY*c.height,w,h);
+    window.AirportVitals.snapshot(ctx,c.width,c.height);
     return c.toDataURL('image/jpeg',.87);
   }
   prompt.onclick=()=>{

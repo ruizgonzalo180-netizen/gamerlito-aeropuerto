@@ -97,7 +97,7 @@
     else if (stage === 'desktop' || stage === 'opening') window.AirportLobby.hide();
   };
   if (window.AirportLobby) initialize();
-  else import('./launcher.js?v=logo-entry3').then(initialize).catch(() => {
+  else import('./launcher.js?v=ipad-art4').then(initialize).catch(() => {
     launcher.innerHTML = '<p role="alert">The launcher could not load. <button type="button">Try again</button></p>';
     launcher.querySelector('button').onclick = () => location.reload();
   });

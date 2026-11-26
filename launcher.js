@@ -50,7 +50,7 @@
   const maskInput=input=>input.classList.toggle('lx-hidden-input',namePattern().test(input.value));
   const hiddenCreator='<span class="lx-hidden-name" aria-hidden="true">Game creator</span>';
   const games = [
-    {id:'gta',name:'Grand Theft Auto VI',aliases:['gta','gta6','gta 6','gta vi','gtavi','grand theft auto 6'],img:'launcher/992d18231337c844.webp',hero:'entry/airport.jpg',rating:100},
+    {id:'gta',name:'Grand Theft Auto VI',aliases:['gta','gta6','gta 6','gta vi','gtavi','grand theft auto 6'],img:'launcher/992d18231337c844.webp',hero:'launcher/87a89308fbccb2b3.webp',rating:100},
     {id:'feral',name:'FERAL 🐺 Animal Survival',img:'launcher/continue-1.webp',rating:82},
     {id:'egg',name:'Steal An Egg',img:'launcher/c0b1b2b1c83dbb5e.webp',rating:91},
     {id:'mm2',name:'Murder Mystery 2',img:'launcher/12b244e5d98bbd3f.webp',rating:90},
